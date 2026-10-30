@@ -1,0 +1,681 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#e4512f">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<meta name="app-version" content="20261030-1536-173983">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<!-- APP START -->
+<title>English Passo Passo</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+/* Layout: grid-paper notebook; a stepping-stone path of lessons; each lesson opens into Learn / Practice */
+:root{
+  --paper:#f5f6ee; --grid:#dfe7ef; --ink:#1c2943; --muted:#5a6580;
+  --card:#ffffff; --line:#d3d9e3;
+  --tomato:#e4512f; --sun:#f4bb22; --leaf:#24936a; --sky:#2f6fd0;
+  --good-bg:#e2f5ea; --bad-bg:#fde6df;
+  --f-display:"Baloo 2","Comic Sans MS","Trebuchet MS",system-ui,sans-serif;
+  --f-body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --r:16px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#15201b; --grid:#1d2b25; --ink:#eef2ea; --muted:#a3b2aa;
+  --card:#1e2c26; --line:#30443b;
+  --tomato:#ff7b5a; --sun:#ffd257; --leaf:#4cc890; --sky:#73a6ff;
+  --good-bg:#183d2c; --bad-bg:#47241b; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --paper:#15201b; --grid:#1d2b25; --ink:#eef2ea; --muted:#a3b2aa;
+  --card:#1e2c26; --line:#30443b;
+  --tomato:#ff7b5a; --sun:#ffd257; --leaf:#4cc890; --sky:#73a6ff;
+  --good-bg:#183d2c; --bad-bg:#47241b; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{
+  background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px;
+  color:var(--ink); font-family:var(--f-body); font-size:17px; line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:20px 48px;
+}
+.wrap{max-width:860px;margin:0 auto}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid var(--sky);outline-offset:3px}
+h1,h2,h3{font-family:var(--f-display);line-height:1.1;margin:0;text-wrap:balance}
+
+/* header */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.brand h1{font-size:clamp(30px,6vw,44px);font-weight:800;letter-spacing:-.5px}
+.brand h1 span{color:var(--tomato)}
+.brand p{margin:0;color:var(--muted)}
+.score-pill{display:flex;align-items:center;gap:6px;background:var(--card);border:2px solid var(--ink);border-radius:999px;padding:6px 14px;font-family:var(--f-display);font-weight:700;font-size:20px;box-shadow:3px 3px 0 var(--ink)}
+.score-pill .st{color:var(--sun)}
+
+/* path */
+.path-h{font-size:22px;margin-bottom:6px}
+.path-sub{color:var(--muted);margin:0 0 18px}
+.path{position:relative;display:grid;gap:14px;padding-left:4px}
+.path::before{content:"";position:absolute;left:34px;top:20px;bottom:20px;border-left:4px dashed var(--line)}
+.step{position:relative;display:flex;align-items:center;gap:14px;text-align:left;background:var(--card);border:2px solid var(--ink);border-radius:var(--r);padding:12px 16px 12px 12px;box-shadow:4px 4px 0 var(--ink);transition:transform .12s}
+.step:hover:not(:disabled){transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.step:disabled{cursor:not-allowed;opacity:.55;box-shadow:none;border-style:dashed}
+.step-n{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--sun);color:#1c2943;font-family:var(--f-display);font-weight:800;font-size:22px;border:2px solid var(--ink)}
+.step.done .step-n{background:var(--leaf);color:#fff}
+.step-pic{font-size:34px;flex:none;width:44px;text-align:center}
+.step-txt{flex:1;min-width:0;display:flex;flex-direction:column}
+.step-txt b{font-family:var(--f-display);font-size:21px;line-height:1.15}
+.step-txt small{color:var(--muted);font-size:15px}
+.stars{flex:none;font-size:20px;letter-spacing:2px;color:var(--line)}
+.stars .on{color:var(--sun)}
+.lock{font-size:13px;color:var(--muted)}
+@media (min-width:640px){
+  .path{grid-template-columns:1fr 1fr;column-gap:28px}
+  .path::before{display:none}
+  .step:nth-child(even){transform:translateY(34px)}
+  .step:nth-child(even):hover:not(:disabled){transform:translate(-2px,32px)}
+  .path{padding-bottom:34px}
+}
+
+.teacher{margin-top:40px;display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;color:var(--muted);font-size:15px;border-top:2px dashed var(--line);padding-top:16px}
+.teacher label{display:flex;gap:8px;align-items:center;cursor:pointer}
+.teacher input{width:20px;height:20px;accent-color:var(--leaf)}
+.link{background:none;border:0;padding:0;text-decoration:underline;color:var(--muted)}
+.confirm{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+
+/* unit */
+.unit-top{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.back{background:var(--card);border:2px solid var(--ink);border-radius:12px;padding:6px 12px;font-weight:700}
+.unit-top h2{font-size:clamp(26px,5vw,36px);flex:1;min-width:0}
+.unit-top h2 small{display:block;font-family:var(--f-body);font-size:15px;color:var(--muted);font-weight:400}
+.tabs{display:inline-flex;background:var(--card);border:2px solid var(--ink);border-radius:999px;padding:4px;margin-bottom:18px}
+.tabs button{border:0;background:none;border-radius:999px;padding:8px 20px;font-family:var(--f-display);font-weight:700;font-size:18px}
+.tabs button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.hint{color:var(--muted);margin:0 0 14px}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.card{display:flex;flex-direction:column;align-items:center;gap:4px;background:var(--card);border:2px solid var(--line);border-radius:var(--r);padding:14px 10px 12px;text-align:center}
+.card:hover{border-color:var(--ink)}
+.card.playing{border-color:var(--sky);box-shadow:0 0 0 3px color-mix(in srgb,var(--sky) 30%,transparent)}
+.card .en{font-family:var(--f-display);font-size:22px;font-weight:700;line-height:1.1}
+.card .it{color:var(--muted);font-size:15px}
+.card .pr{font-size:13px;color:var(--tomato);font-weight:700}
+.card .ex{font-size:13px;color:var(--muted);font-style:italic;margin-top:4px}
+.cards.phr{grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+.cards.phr .card{flex-direction:row;text-align:left;align-items:center;gap:12px}
+.cards.phr .card .emo{font-size:36px}
+.cards.phr .card>div{display:flex;flex-direction:column;min-width:0}
+
+.letter{font-family:var(--f-display);font-size:46px;font-weight:800;line-height:1;color:var(--sky)}
+.letter span{color:var(--tomato)}
+
+.emo{font-size:52px;line-height:1.1}
+.swatch{display:inline-block;width:58px;height:58px;border-radius:50%;background:var(--sw);border:3px solid var(--ink)}
+.numpic{display:flex;flex-direction:column;align-items:center;line-height:1}
+.numpic b{font-family:var(--f-display);font-size:50px;color:var(--sky)}
+.numpic i{font-style:normal;font-size:10px;letter-spacing:2px;color:var(--tomato);max-width:90px;word-break:break-all;text-align:center}
+
+.dialog{margin-top:26px}
+.dialog h3{font-size:22px;margin-bottom:10px}
+.bubbles{display:grid;gap:8px;max-width:520px}
+.bub{border:2px solid var(--ink);border-radius:18px;padding:8px 14px;background:var(--card);text-align:left;max-width:80%}
+.bub.a{justify-self:start;border-bottom-left-radius:4px}
+.bub.b{justify-self:end;background:var(--sun);color:#1c2943;border-bottom-right-radius:4px}
+.bub small{display:block;opacity:.75;font-size:13px}
+
+.start-practice{margin-top:24px}
+
+/* practice */
+.bar{height:14px;border:2px solid var(--ink);border-radius:999px;background:var(--card);overflow:hidden;margin-bottom:18px}
+.bar i{display:block;height:100%;background:var(--leaf);transition:width .3s}
+.q{background:var(--card);border:2px solid var(--ink);border-radius:20px;padding:20px;box-shadow:5px 5px 0 var(--ink)}
+.q-title{font-family:var(--f-display);font-size:22px;font-weight:700;margin:0 0 14px}
+.stage{display:flex;flex-direction:column;align-items:center;gap:10px;min-height:110px;justify-content:center;margin-bottom:18px;text-align:center}
+.stage .emo{font-size:84px}
+.stage .swatch{width:96px;height:96px}
+.stage .numpic b{font-size:80px}
+.stage .big{font-family:var(--f-display);font-size:clamp(26px,6vw,36px);font-weight:700;line-height:1.15}
+.stage .bigletter{font-family:var(--f-display);font-size:96px;font-weight:800;line-height:1;color:var(--sky)}
+.stage .sentence{font-size:clamp(20px,5vw,26px);font-family:var(--f-display);font-weight:600}
+.blank{display:inline-block;min-width:80px;border-bottom:4px solid var(--tomato);margin:0 4px}
+.listen-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.btn{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--ink);border-radius:14px;padding:10px 18px;font-weight:700;background:var(--card);box-shadow:3px 3px 0 var(--ink)}
+.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.btn.main{background:var(--tomato);color:#fff}
+.btn.sky{background:var(--sky);color:#fff}
+.btn.big{font-size:20px;padding:14px 24px;border-radius:18px}
+.btn svg{width:22px;height:22px;flex:none}
+
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opt{border:2px solid var(--line);border-radius:16px;background:var(--paper);padding:14px 10px;font-size:19px;font-weight:700;min-height:64px;display:flex;align-items:center;justify-content:center;text-align:center;gap:8px}
+.opts.pics .opt{min-height:110px}
+.opts.letters .opt{font-family:var(--f-display);font-size:40px;font-weight:800}
+.opt:hover:not(:disabled){border-color:var(--ink)}
+.opt:disabled{cursor:default}
+.opt.right{background:var(--good-bg);border-color:var(--leaf)}
+.opt.wrong{background:var(--bad-bg);border-color:var(--tomato)}
+.opt.dim{opacity:.45}
+
+.slots{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-bottom:14px;min-height:56px}
+.slot{width:46px;height:52px;border:0;border-bottom:4px solid var(--ink);background:none;font-family:var(--f-display);font-size:32px;font-weight:800}
+.slot.ok{color:var(--leaf);border-color:var(--leaf)}
+.slot.ko{color:var(--tomato);border-color:var(--tomato)}
+.tiles{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:16px}
+.tile{width:50px;height:50px;border:2px solid var(--ink);border-radius:12px;background:var(--sun);color:#1c2943;font-family:var(--f-display);font-size:28px;font-weight:800;box-shadow:2px 2px 0 var(--ink)}
+.tile:disabled{visibility:hidden}
+.spell-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+
+.fb{margin-top:16px;border-radius:16px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.fb.good{background:var(--good-bg)}
+.fb.bad{background:var(--bad-bg)}
+.fb b{font-family:var(--f-display);font-size:22px;display:block}
+.fb div{min-width:0}
+
+.end{text-align:center;padding:28px 16px}
+.end .big-stars{font-size:64px;letter-spacing:6px;color:var(--line)}
+.end .big-stars .on{color:var(--sun);display:inline-block;animation:pop .5s both}
+.end .big-stars .on:nth-child(2){animation-delay:.2s}
+.end .big-stars .on:nth-child(3){animation-delay:.4s}
+.end h3{font-size:34px;margin:6px 0}
+.end p{color:var(--muted);margin:0 0 20px}
+.end .actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+@keyframes pop{0%{transform:scale(.3)}70%{transform:scale(1.25)}100%{transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* grammar */
+.rules{display:grid;gap:14px}
+.rule{background:var(--card);border:2px solid var(--ink);border-radius:var(--r);padding:16px 18px;box-shadow:4px 4px 0 var(--ink);display:grid;gap:10px}
+.rule h3{font-size:23px;display:flex;gap:10px;align-items:center}
+.rule p{margin:0;max-width:65ch}
+.exs{display:flex;flex-wrap:wrap;gap:8px}
+.exb{border:2px solid var(--line);border-radius:12px;background:var(--paper);padding:8px 12px;text-align:left;font-size:18px;min-width:0}
+.exb:hover{border-color:var(--ink)}
+.exb small{display:block;color:var(--muted);font-size:14px}
+mark{background:none;color:var(--tomato);font-weight:700}
+.tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:6px;padding:1px 7px;margin-top:3px;align-self:flex-start;background:var(--sky);color:#fff}
+.tag.new{background:var(--tomato)}
+.built{display:flex;flex-wrap:wrap;gap:8px;min-height:62px;justify-content:center;align-items:center;border-bottom:3px dashed var(--line);padding-bottom:12px;margin-bottom:16px}
+.built-ph{color:var(--muted)}
+.wtile{border:2px solid var(--ink);border-radius:12px;background:var(--sun);color:#1c2943;font-weight:700;font-size:20px;padding:8px 14px;box-shadow:2px 2px 0 var(--ink)}
+.tiles .wtile:disabled{visibility:hidden}
+.built .wtile{background:var(--card);color:var(--ink)}
+.built.ok .wtile{background:var(--good-bg);border-color:var(--leaf)}
+.built.ko .wtile{background:var(--bad-bg);border-color:var(--tomato)}
+.note{background:var(--bad-bg);border-radius:12px;padding:10px 14px;margin-bottom:16px;font-size:15px}
+@media (max-width:420px){.cards{grid-template-columns:1fr 1fr}.opts.pics .opt{min-height:96px}.stage .emo{font-size:70px}}
+</style>
+
+<div class="wrap" id="app"></div>
+
+<script>
+/* ---------------- DATA ---------------- */
+const ABC = [
+ ["A","ei","apple","mela","🍎"],["B","bi","ball","palla","⚽"],["C","si","cat","gatto","🐱"],
+ ["D","di","dog","cane","🐶"],["E","i","egg","uovo","🥚"],["F","ef","fish","pesce","🐟"],
+ ["G","gi","grapes","uva","🍇"],["H","eich","house","casa","🏠"],["I","ai","ice cream","gelato","🍦"],
+ ["J","gei","juice","succo","🧃"],["K","kei","kite","aquilone","🪁"],["L","el","lion","leone","🦁"],
+ ["M","em","moon","luna","🌙"],["N","en","nose","naso","👃"],["O","ou","orange","arancia","🍊"],
+ ["P","pi","pizza","pizza","🍕"],["Q","kiù","queen","regina","👑"],["R","ar","rabbit","coniglio","🐰"],
+ ["S","es","sun","sole","☀️"],["T","ti","tree","albero","🌳"],["U","iù","umbrella","ombrello","☂️"],
+ ["V","vi","violin","violino","🎻"],["W","dàbliu","watch","orologio","⌚"],["X","eks","fox","volpe","🦊"],
+ ["Y","uài","yo-yo","yo-yo","🪀"],["Z","zed","zebra","zebra","🦓"]
+].map(([L,p,w,wi,e])=>({en:L,p,word:w,wordIt:wi,pic:e}));
+
+const UNITS = [
+ {id:"abc",en:"The Alphabet",it:"L'alfabeto",cover:"🔤",kind:"abc",items:ABC},
+ {id:"hello",en:"Hello!",it:"Saluti e presentazioni",cover:"👋",kind:"phrases",items:[
+  {en:"Hello",it:"Ciao",p:"hel-lòu",pic:"👋"},
+  {en:"Good morning",it:"Buongiorno",p:"gud mòrnin",pic:"🌅"},
+  {en:"Good afternoon",it:"Buon pomeriggio",p:"gud àftanuun",pic:"🌤️"},
+  {en:"Good evening",it:"Buonasera",p:"gud ìivnin",pic:"🌆"},
+  {en:"Good night",it:"Buonanotte",p:"gud nàit",pic:"🌙"},
+  {en:"Goodbye",it:"Arrivederci",p:"gud-bài",pic:"🙋"},
+  {en:"How are you?",it:"Come stai?",p:"hàu ar iù",pic:"🤔"},
+  {en:"I'm fine, thank you",it:"Sto bene, grazie",p:"àim fàin, thènk iù",pic:"😊"},
+  {en:"What's your name?",it:"Come ti chiami?",p:"uòts iòr nèim",pic:"❓"},
+  {en:"My name is Luca",it:"Mi chiamo Luca",p:"mai nèim is Luca",pic:"📛"},
+  {en:"Nice to meet you",it:"Piacere di conoscerti",p:"nàis tu mìit iù",pic:"🤝"},
+  {en:"Please",it:"Per favore",p:"pliis",pic:"🙏"},
+  {en:"Thank you",it:"Grazie",p:"thènk iù",pic:"💐"},
+  {en:"Sorry",it:"Scusa",p:"sòrri",pic:"😔"}],
+  dialog:[["Hello!","Ciao!"],["Hello! How are you?","Ciao! Come stai?"],["I'm fine, thank you. And you?","Sto bene, grazie. E tu?"],["What's your name?","Come ti chiami?"],["My name is Luca.","Mi chiamo Luca."],["Nice to meet you!","Piacere!"],["Goodbye!","Arrivederci!"]],
+  pairs:[["Hello!","Hello!"],["How are you?","I'm fine, thank you."],["What's your name?","My name is Luca."],["Nice to meet you.","Nice to meet you too."],["Thank you!","You're welcome."],["Goodbye!","Bye!"],["Good night!","Good night!"]]},
+ {id:"num",en:"Numbers 1–12",it:"I numeri",cover:"🔢",items:[
+  ["one","uno","uàn"],["two","due","tù"],["three","tre","thrì"],["four","quattro","fòr"],["five","cinque","fàiv"],["six","sei","siks"],
+  ["seven","sette","sèven"],["eight","otto","èit"],["nine","nove","nàin"],["ten","dieci","ten"],["eleven","undici","ilèven"],["twelve","dodici","tuèlv"]
+ ].map(([en,it,p],i)=>({en,it,p,num:i+1,ex:`I am ${["one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve"][i]==="eleven"?"eleven":["one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve"][i]} years old.`}))},
+ {id:"col",en:"Colours",it:"I colori",cover:"🎨",items:[
+  {en:"red",it:"rosso",p:"red",color:"#e53935",ex:"The apple is red."},
+  {en:"blue",it:"blu",p:"blu",color:"#1e63d6",ex:"The sky is blue."},
+  {en:"green",it:"verde",p:"griin",color:"#2e9d4b",ex:"The tree is green."},
+  {en:"yellow",it:"giallo",p:"ièlou",color:"#fbd02b",ex:"The sun is yellow."},
+  {en:"orange",it:"arancione",p:"òrinj",color:"#f57c1f",ex:"The orange is orange."},
+  {en:"purple",it:"viola",p:"pèrpol",color:"#7b3fb5",ex:"The grapes are purple."},
+  {en:"pink",it:"rosa",p:"pink",color:"#f48fb1",ex:"The pig is pink."},
+  {en:"black",it:"nero",p:"blèk",color:"#111111",ex:"The cat is black."},
+  {en:"white",it:"bianco",p:"uàit",color:"#ffffff",ex:"The milk is white."},
+  {en:"brown",it:"marrone",p:"bràun",color:"#7a4a2a",ex:"The bear is brown."},
+  {en:"grey",it:"grigio",p:"grèi",color:"#9095a0",ex:"The elephant is grey."}]},
+ {id:"ani",en:"Animals",it:"Gli animali",cover:"🐾",items:[
+  {en:"cat",it:"gatto",pic:"🐱",ex:"The cat says meow."},
+  {en:"dog",it:"cane",pic:"🐶",ex:"The dog says woof."},
+  {en:"bird",it:"uccello",pic:"🐦",ex:"The bird can fly."},
+  {en:"fish",it:"pesce",pic:"🐟",ex:"The fish can swim."},
+  {en:"rabbit",it:"coniglio",pic:"🐰",ex:"The rabbit can jump."},
+  {en:"horse",it:"cavallo",pic:"🐴",ex:"The horse is fast."},
+  {en:"cow",it:"mucca",pic:"🐮",ex:"The cow says moo."},
+  {en:"pig",it:"maiale",pic:"🐷",ex:"The pig is pink."},
+  {en:"lion",it:"leone",pic:"🦁",ex:"The lion is strong."},
+  {en:"elephant",it:"elefante",pic:"🐘",ex:"The elephant is big."},
+  {en:"monkey",it:"scimmia",pic:"🐵",ex:"The monkey is funny."},
+  {en:"frog",it:"rana",pic:"🐸",ex:"The frog is green."}]},
+ {id:"fam",en:"My Family",it:"La famiglia",cover:"🏡",items:[
+  {en:"mother",it:"mamma",pic:"👩",ex:"This is my mother."},
+  {en:"father",it:"papà",pic:"👨",ex:"This is my father."},
+  {en:"sister",it:"sorella",pic:"👧",ex:"This is my sister."},
+  {en:"brother",it:"fratello",pic:"👦",ex:"This is my brother."},
+  {en:"grandmother",it:"nonna",pic:"👵",ex:"This is my grandmother."},
+  {en:"grandfather",it:"nonno",pic:"👴",ex:"This is my grandfather."},
+  {en:"baby",it:"bebè",pic:"👶",ex:"The baby is small."},
+  {en:"family",it:"famiglia",pic:"👨‍👩‍👧‍👦",ex:"I love my family."}]},
+ {id:"sch",en:"At School",it:"A scuola",cover:"🎒",items:[
+  {en:"book",it:"libro",pic:"📕",ex:"Open your book."},
+  {en:"pen",it:"penna",pic:"🖊️",ex:"I have a pen."},
+  {en:"pencil",it:"matita",pic:"✏️",ex:"I have a pencil."},
+  {en:"bag",it:"zaino",pic:"🎒",ex:"My bag is blue."},
+  {en:"ruler",it:"righello",pic:"📏",ex:"I have a ruler."},
+  {en:"scissors",it:"forbici",pic:"✂️",ex:"Can I have the scissors, please?"},
+  {en:"teacher",it:"insegnante",pic:"🧑‍🏫",ex:"This is my teacher."},
+  {en:"chair",it:"sedia",pic:"🪑",ex:"Sit on the chair."},
+  {en:"computer",it:"computer",pic:"💻",ex:"I use the computer."},
+  {en:"clock",it:"orologio",pic:"🕒",ex:"Look at the clock."}]},
+ {id:"food",en:"Food",it:"Il cibo",cover:"🍕",items:[
+  {en:"apple",it:"mela",pic:"🍎",ex:"I eat an apple."},
+  {en:"banana",it:"banana",pic:"🍌",ex:"I eat a banana."},
+  {en:"bread",it:"pane",pic:"🍞",ex:"I eat bread."},
+  {en:"milk",it:"latte",pic:"🥛",ex:"I drink milk."},
+  {en:"water",it:"acqua",pic:"💧",ex:"I drink water."},
+  {en:"cheese",it:"formaggio",pic:"🧀",ex:"I like cheese."},
+  {en:"egg",it:"uovo",pic:"🥚",ex:"I eat an egg."},
+  {en:"pizza",it:"pizza",pic:"🍕",ex:"I love pizza."},
+  {en:"cake",it:"torta",pic:"🍰",ex:"This cake is good."},
+  {en:"carrot",it:"carota",pic:"🥕",ex:"The rabbit eats a carrot."},
+  {en:"ice cream",it:"gelato",pic:"🍦",ex:"I like ice cream."},
+  {en:"juice",it:"succo",pic:"🧃",ex:"I drink juice."}]},
+ {id:"body",en:"My Body",it:"Il corpo",cover:"🖐️",items:[
+  {en:"face",it:"faccia",pic:"🙂",ex:"Touch your face!"},
+  {en:"eye",it:"occhio",pic:"👁️",ex:"Touch your eye!"},
+  {en:"ear",it:"orecchio",pic:"👂",ex:"Touch your ear!"},
+  {en:"nose",it:"naso",pic:"👃",ex:"Touch your nose!"},
+  {en:"mouth",it:"bocca",pic:"👄",ex:"Open your mouth!"},
+  {en:"teeth",it:"denti",pic:"🦷",ex:"Brush your teeth!"},
+  {en:"hand",it:"mano",pic:"✋",ex:"Raise your hand!"},
+  {en:"arm",it:"braccio",pic:"💪",ex:"Touch your arm!"},
+  {en:"leg",it:"gamba",pic:"🦵",ex:"Touch your leg!"},
+  {en:"foot",it:"piede",pic:"🦶",ex:"Touch your foot!"}]},
+ {id:"act",en:"I Can…",it:"Le azioni",cover:"🏃",items:[
+  {en:"run",it:"correre",pic:"🏃",ex:"I can run."},
+  {en:"jump",it:"saltare",pic:"🤸",ex:"I can jump."},
+  {en:"swim",it:"nuotare",pic:"🏊",ex:"I can swim."},
+  {en:"sing",it:"cantare",pic:"🎤",ex:"I can sing."},
+  {en:"dance",it:"ballare",pic:"💃",ex:"I can dance."},
+  {en:"read",it:"leggere",pic:"📖",ex:"I can read."},
+  {en:"write",it:"scrivere",pic:"✍️",ex:"I can write."},
+  {en:"draw",it:"disegnare",pic:"🖍️",ex:"I can draw."},
+  {en:"eat",it:"mangiare",pic:"🍽️",ex:"I eat pizza."},
+  {en:"sleep",it:"dormire",pic:"😴",ex:"I sleep at night."}]}
+];
+// fix numbers example sentences
+UNITS[2].items.forEach(it=>{ it.ex = it.num<=10 ? `I have ${it.en} pencils.` : `I have ${it.en} books.`; if(it.num===1) it.ex="I have one pencil."; });
+
+/* ---- GRAMMAR UNITS ---- ** marks the key word; ___ marks the blank */
+const W=s=>s.split(" ");
+UNITS.push(
+ {id:"g-do",en:"Do / Does",it:"Ripasso · domande e negazioni",cover:"❓",kind:"grammar",tag:"Ripasso",
+  rules:[
+   {pic:"👥",t:"Do o does?",it:"Con <b>I, you, we, they</b> si usa <b>do</b>. Con <b>he, she, it</b> si usa <b>does</b>.",
+    ex:[["**Do** you like pizza?","Ti piace la pizza?"],["**Does** she play tennis?","Lei gioca a tennis?"]]},
+   {pic:"🚫",t:"La frase negativa",it:"<b>don't</b> (= do not) e <b>doesn't</b> (= does not) + verbo.",
+    ex:[["I **don't** like milk.","Non mi piace il latte."],["He **doesn't** play football.","Lui non gioca a calcio."]]},
+   {pic:"⚠️",t:"Attenzione alla -s!",it:"Dopo <b>does</b> e <b>doesn't</b> il verbo perde la -s.",
+    ex:[["She **plays**.","Lei gioca."],["**Does** she **play**?","Lei gioca?"],["She **doesn't play**.","Lei non gioca."]]},
+   {pic:"💬",t:"Risposte brevi",it:"Si risponde con <b>Yes, … do/does</b> oppure <b>No, … don't/doesn't</b>.",
+    ex:[["Do you have a dog? – Yes, I **do**.","Hai un cane? – Sì."],["Does Anna like cats? – No, she **doesn't**.","Ad Anna piacciono i gatti? – No."]]}],
+  qs:[["___ you like football?",["Do","Does"]],["___ your brother play the guitar?",["Does","Do"]],["She ___ like milk.",["doesn't","don't"]],
+   ["We ___ go to school on Sunday.",["don't","doesn't"]],["Does he ___ in Genova?",["live","lives"]],["My cat ___ fish.",["likes","like"]],
+   ["___ they speak English?",["Do","Does"]],["Tom ___ watch TV in the morning.",["doesn't","don't"]],["Do you play tennis? – Yes, I ___.",["do","does","am"]],
+   ["Does Anna like cats? – No, she ___.",["doesn't","don't","isn't"]],["I ___ have a sister.",["don't","doesn't"]],["Where ___ your father work?",["does","do"]]],
+  order:[W("Does she like pizza ?"),W("I don't like milk ."),W("Do you play football ?"),W("He doesn't watch TV .")]},
+ {id:"g-there",en:"There is / There are",it:"Ripasso · some, any, a few",cover:"🏠",kind:"grammar",tag:"Ripasso",
+  rules:[
+   {pic:"🐱",t:"There is / There are",it:"<b>There is</b> + una cosa (singolare). <b>There are</b> + tante cose (plurale). Vuol dire <i>c'è / ci sono</i>.",
+    ex:[["**There is** a cat on the bed.","C'è un gatto sul letto."],["**There are** two dogs in the garden.","Ci sono due cani in giardino."]]},
+   {pic:"❔",t:"Negativa e domanda",it:"Negativa: <b>There isn't / There aren't</b>. Domanda: <b>Is there…? / Are there…?</b>",
+    ex:[["**There isn't** a TV.","Non c'è una TV."],["**Are there** any pens? – Yes, there **are**.","Ci sono delle penne? – Sì."]]},
+   {pic:"🍎",t:"Some o any?",it:"<b>some</b> nelle frasi affermative. <b>any</b> nelle frasi negative e nelle domande.",
+    ex:[["There are **some** apples.","Ci sono delle mele."],["There aren't **any** apples.","Non ci sono mele."],["Are there **any** apples?","Ci sono delle mele?"]]},
+   {pic:"✏️",t:"A few",it:"<b>a few</b> = alcuni, qualche (pochi). Si usa con il plurale.",
+    ex:[["There are **a few** books on the desk.","Ci sono alcuni libri sulla scrivania."]]}],
+  qs:[["There ___ a book on the table.",["is","are"]],["There ___ three chairs in the room.",["are","is"]],["___ there a park near your house?",["Is","Are"]],
+   ["___ there any biscuits?",["Are","Is"]],["There aren't ___ eggs in the fridge.",["any","some"]],["There are ___ apples in the bag.",["some","any"]],
+   ["Is there ___ milk?",["any","a few"]],["There ___ any bananas.",["aren't","isn't"]],["There isn't ___ water.",["any","some"]],
+   ["There are ___ pencils on the desk.",["a few","a"]],["Are there any cats? – Yes, there ___.",["are","is"]],["Is there a TV? – No, there ___.",["isn't","aren't"]]],
+  order:[W("There is a cat on the bed ."),W("Are there any apples ?"),W("There aren't any books ."),W("There are a few pens .")]},
+ {id:"g-much",en:"How much? How many?",it:"Nuovo · a few, a little, much, many",cover:"🥛",kind:"grammar",tag:"Nuovo",
+  rules:[
+   {pic:"🍎",t:"Si conta o non si conta?",it:"<b>Countable</b>: si possono contare (an apple, two apples). <b>Uncountable</b>: non si contano e non hanno il plurale (water, milk, bread, cheese, sugar, money).",
+    ex:[["one apple, three **apples**","una mela, tre mele"],["some **water**","un po' d'acqua"]]},
+   {pic:"🔢",t:"How many? How much?",it:"<b>How many</b> + plurale (cose che si contano). <b>How much</b> + cose che non si contano.",
+    ex:[["**How many** apples are there?","Quante mele ci sono?"],["**How much** milk is there?","Quanto latte c'è?"]]},
+   {pic:"🤏",t:"A few o a little?",it:"<b>a few</b> + plurale. <b>a little</b> + cose che non si contano. Vogliono dire <i>un po' / alcuni</i>.",
+    ex:[["I have **a few** friends.","Ho alcuni amici."],["I want **a little** sugar.","Voglio un po' di zucchero."]]},
+   {pic:"📚",t:"Many o much?",it:"<b>many</b> + plurale, <b>much</b> + cose che non si contano. Si usano soprattutto nelle negative e nelle domande. <b>a lot of</b> va bene con tutti.",
+    ex:[["I don't have **many** books.","Non ho molti libri."],["There isn't **much** water.","Non c'è molta acqua."],["She has **a lot of** toys.","Lei ha tanti giocattoli."]]}],
+  qs:[["How ___ apples are there?",["many","much"]],["How ___ milk do you want?",["much","many"]],["There is ___ water in the glass.",["a little","a few"]],
+   ["I have ___ friends in my class.",["a few","a little"]],["There isn't ___ bread.",["much","many"]],["We don't have ___ books.",["many","much"]],
+   ["How ___ money do you have?",["much","many"]],["How ___ brothers do you have?",["many","much"]],["Can I have ___ sugar, please?",["a little","a few"]],
+   ["There are ___ biscuits in the box.",["a few","a little"]],["Quale parola NON si può contare?",["cheese","apple","egg","banana"]],["Quale parola si può contare?",["chair","water","milk","bread"]]],
+  order:[W("How many cats do you have ?"),W("How much juice is there ?"),W("There is a little cheese ."),W("I have a few pencils .")]},
+ {id:"g-ing",en:"I am playing",it:"Nuovo · present continuous",cover:"⚽",kind:"grammar",tag:"Nuovo",
+  rules:[
+   {pic:"👀",t:"Adesso!",it:"Il present continuous si usa per quello che succede <b>adesso</b>: <i>now, at the moment, Look!</i>",
+    ex:[["Look! The dog **is running**.","Guarda! Il cane sta correndo."]]},
+   {pic:"🧩",t:"am / is / are + -ing",it:"<b>I am</b>, <b>he/she/it is</b>, <b>you/we/they are</b> + verbo con <b>-ing</b>.",
+    ex:[["I **am eating**.","Sto mangiando."],["She **is reading**.","Lei sta leggendo."],["They **are playing**.","Loro stanno giocando."]]},
+   {pic:"❔",t:"Negativa e domanda",it:"Negativa: <b>I'm not / isn't / aren't</b> + -ing. Domanda: <b>Are you…? Is he…?</b>",
+    ex:[["He **isn't sleeping**.","Lui non sta dormendo."],["**Are** you **listening**? – Yes, I **am**.","Stai ascoltando? – Sì."]]},
+   {pic:"✍️",t:"Come si scrive",it:"dance → <b>dancing</b> (via la -e). swim → <b>swimming</b>, run → <b>running</b> (doppia consonante). play → <b>playing</b>.",
+    ex:[["She is **dancing**.","Lei sta ballando."],["We are **swimming**.","Stiamo nuotando."]]},
+   {pic:"📅",t:"Ogni giorno o adesso?",it:"<b>I play</b> = di solito (every day). <b>I am playing</b> = adesso (now).",
+    ex:[["I **play** football every Saturday.","Gioco a calcio ogni sabato."],["I **am playing** football now.","Sto giocando a calcio adesso."]]}],
+  qs:[["Look! The dog ___ running.",["is","are","am"]],["I ___ reading a book now.",["am","is","are"]],["They ___ playing in the park.",["are","is","am"]],
+   ["She is ___ a song.",["singing","sing","sings"]],["We aren't ___ TV.",["watching","watch"]],["___ you listening to me?",["Are","Is","Do"]],
+   ["He is ___ in the sea.",["swimming","swiming"]],["Is Marco sleeping? – No, he ___.",["isn't","doesn't"]],["Now I ___ tennis.",["am playing","play"]],
+   ["My mum ___ cooking dinner at the moment.",["is","are"]],["The children are ___.",["dancing","danceing"]],["I ___ to school every day.",["go","am going"]]],
+  order:[W("She is reading a book ."),W("Are you eating pizza ?"),W("They aren't playing football ."),W("I am writing now .")]}
+);
+const mk=s=>esc(s).replace(/\*\*(.+?)\*\*/g,"<mark>$1</mark>");
+const plain=s=>s.replace(/\*\*/g,"");
+
+/* ---------------- STATE ---------------- */
+const KEY="epp-progress-v1";
+let prog={stars:{},teacher:false};
+try{const s=JSON.parse(localStorage.getItem(KEY)); if(s&&s.stars) prog=s;}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(prog))}catch(e){}}
+
+let S={view:"home",u:0,tab:"learn",round:null,confirmReset:false};
+
+/* ---------------- SPEECH ---------------- */
+const canSpeak="speechSynthesis" in window;
+let voice=null;
+function pickVoice(){ if(!canSpeak) return; const v=speechSynthesis.getVoices();
+  voice=v.find(x=>x.lang==="en-GB")||v.find(x=>/^en[-_]GB/i.test(x.lang))||v.find(x=>/^en[-_]US/i.test(x.lang))||v.find(x=>/^en/i.test(x.lang))||null; }
+if(canSpeak){pickVoice(); speechSynthesis.onvoiceschanged=pickVoice;}
+function say(t,slow){ if(!canSpeak||!t) return; speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(t); u.lang=voice?voice.lang:"en-GB"; if(voice) u.voice=voice;
+  u.rate=slow?0.55:0.88; speechSynthesis.speak(u); }
+
+/* ---------------- HELPERS ---------------- */
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const others=(arr,t,n=3,key=x=>x.en)=>shuffle(arr.filter(x=>key(x)!==key(t))).slice(0,n);
+const SPK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>';
+function pic(it){
+  if(it.color) return `<span class="swatch" style="--sw:${it.color}"></span>`;
+  if(it.num!=null) return `<span class="numpic"><b>${it.num}</b><i>${"●".repeat(it.num)}</i></span>`;
+  return `<span class="emo">${it.pic}</span>`;
+}
+function starsHTML(n){return [1,2,3].map(i=>`<span class="${i<=n?"on":""}">★</span>`).join("")}
+const totalStars=()=>Object.values(prog.stars).reduce((a,b)=>a+b,0);
+const unlocked=i=>prog.teacher||i===0||UNITS[i].tag==="Ripasso"||(prog.stars[UNITS[i-1].id]||0)>=1;
+
+/* ---------------- QUESTIONS ---------------- */
+const T={
+ listenPic:"Ascolta e scegli l'immagine giusta.",
+ pic2word:"Come si dice in inglese?",
+ it2en:"Come si dice in inglese?",
+ en2it:"Che cosa vuol dire?",
+ spell:"Scrivi la parola in inglese.",
+ fill:"Completa la frase.",
+ listenLetter:"Ascolta e scegli la lettera.",
+ picLetter:"Con quale lettera comincia?",
+ letterPic:"Quale parola comincia con questa lettera?",
+ dialog:"Qualcuno ti dice questo. Che cosa rispondi?",
+ listenPhrase:"Ascolta e scegli la frase.",
+ gfill:"Scegli la parola giusta.",
+ order:"Metti le parole in ordine."
+};
+const canSpell=w=>/^[a-z]+$/.test(w)&&w.length<=8;
+const listenBtns=t=>`<div class="listen-row"><button class="btn sky big" data-act="say" data-t="${esc(t)}">${SPK} Ascolta</button><button class="btn" data-act="sayslow" data-t="${esc(t)}">Lento</button></div>`;
+const miniSpk=t=>`<button class="btn" data-act="say" data-t="${esc(t)}" aria-label="Ascolta">${SPK}</button>`;
+
+function makeQ(u,item,type){
+  const its=u.items;
+  const wordOpts=(t,pool=its)=>shuffle([t,...others(pool,t)]).map(o=>({id:o.en,html:esc(o.en)}));
+  switch(type){
+   case "listenPic": return {type,say:item.en,stage:listenBtns(item.en),cls:"pics",
+      opts:shuffle([item,...others(its,item)]).map(o=>({id:o.en,html:pic(o)})),ans:item.en,item};
+   case "pic2word": return {type,stage:pic(item),cls:"",opts:wordOpts(item),ans:item.en,item};
+   case "it2en": return {type,stage:`<div class="big">${esc(item.it)}</div>`,cls:"",opts:wordOpts(item),ans:item.en,item};
+   case "en2it": return {type,say:item.en,stage:`<div class="big">${esc(item.en)}</div>${miniSpk(item.en)}`,cls:"",
+      opts:shuffle([item,...others(its,item)]).map(o=>({id:o.en,html:esc(o.it)})),ans:item.en,item};
+   case "listenPhrase": return {type,say:item.en,stage:listenBtns(item.en),cls:"",opts:wordOpts(item),ans:item.en,item};
+   case "fill":{ const re=new RegExp(`\\b${item.en}\\b`,"i");
+      const s=esc(item.ex).replace(re,'<span class="blank"></span>');
+      return {type,stage:`${pic(item)}<div class="sentence">${s}</div>`,cls:"",opts:wordOpts(item),ans:item.en,item,sayAfter:item.ex}; }
+   case "spell":{ const w=item.word||item.en; const extra=shuffle("abcdefghilmnoprstuw".split("").filter(c=>!w.includes(c))).slice(0,2);
+      return {type,stage:`${pic(item)}<div class="it" style="color:var(--muted)">${esc(item.wordIt||item.it)}</div>`,
+        word:w,tiles:shuffle([...w,...extra]).map(c=>({c,used:false})),built:[],item}; }
+   case "listenLetter": return {type,say:item.en+".",stage:listenBtns(item.en+"."),cls:"letters",
+      opts:shuffle([item,...others(its,item)]).map(o=>({id:o.en,html:o.en})),ans:item.en,item};
+   case "picLetter": return {type,say:item.word,stage:`${pic(item)}<div class="big">_${esc(item.word.slice(1))}</div>`,cls:"letters",
+      opts:shuffle([item,...others(its,item)]).map(o=>({id:o.en,html:o.en})),ans:item.en,item};
+   case "letterPic": return {type,stage:`<div class="bigletter">${item.en}${item.en.toLowerCase()}</div>`,cls:"pics",
+      opts:shuffle([item,...others(its,item)]).map(o=>({id:o.en,html:pic(o)})),ans:item.en,item};
+   case "dialog":{ const pr=item; const ps=u.pairs;
+      const wrong=shuffle(ps.filter(p=>p[1]!==pr[1]&&p[0]!==pr[0])).slice(0,3);
+      return {type,say:pr[0],stage:`<div class="bub a big" style="font-size:24px">${esc(pr[0])}</div>${miniSpk(pr[0])}`,cls:"",
+        opts:shuffle([pr,...wrong]).map(p=>({id:p[1],html:esc(p[1])})),ans:pr[1],item:{en:pr[1],it:""}}; }
+  }
+}
+function grammarRound(u){
+  const g=shuffle(u.qs).slice(0,7).map(([s,opts])=>{const ans=opts[0];
+    const stage=s.includes("___")?`<div class="sentence">${esc(s).replace("___",'<span class="blank"></span>')}</div>`:`<div class="big">${esc(s)}</div>`;
+    return {type:"gfill",stage,cls:"",opts:shuffle(opts).map(o=>({id:o,html:esc(o)})),ans,item:{en:ans,it:""},
+      sayAfter:s.includes("___")?s.replace("___",ans):ans};});
+  const o=shuffle(u.order).slice(0,3).map(ws=>({type:"order",words:ws,stage:"",tiles:shuffle(ws.map(w=>({w,used:false}))),built:[],
+      sentence:ws.join(" ").replace(/ ([?.!,])/g,"$1"),item:{en:"",it:""}}));
+  return {qs:shuffle([...g,...o]),i:0,score:0,done:false,answered:false,chosen:null,right:null};
+}
+function buildRound(u){
+  if(u.kind==="grammar") return grammarRound(u);
+  const N=10, qs=[];
+  let types, pool=shuffle(u.items);
+  if(u.kind==="abc") types=["listenLetter","picLetter","letterPic","spell"];
+  else if(u.kind==="phrases") types=["listenPhrase","it2en","en2it","dialog","dialog"];
+  else types=["listenPic","pic2word","it2en","spell","fill"];
+  let k=0;
+  for(let i=0;i<N;i++){
+    let type=types[i%types.length];
+    if(type==="dialog"){ qs.push(makeQ(u,pick(u.pairs),type)); continue; }
+    let item=pool[k++%pool.length];
+    if(type==="spell"){
+      const cands=u.items.filter(x=>canSpell(x.word||x.en));
+      if(!cands.length) type="pic2word"; else if(!canSpell(item.word||item.en)) item=pick(cands);
+    }
+    if(type==="fill"&&!(item.ex&&new RegExp(`\\b${item.en}\\b`,"i").test(item.ex))) type="pic2word";
+    qs.push(makeQ(u,item,type));
+  }
+  return {qs:shuffle(qs),i:0,score:0,done:false,answered:false,chosen:null,right:null};
+}
+
+/* ---------------- RENDER ---------------- */
+const app=document.getElementById("app");
+function render(){
+  if(S.view==="home") app.innerHTML=home();
+  else app.innerHTML=unitView();
+}
+function header(){
+  return `<header class="top"><div class="brand"><h1>English <span>Passo Passo</span></h1><p>Impara l'inglese, un passo alla volta.</p></div>
+  <div class="score-pill" title="Stelle totali"><span class="st">★</span> ${totalStars()} / ${UNITS.length*3}</div></header>`;
+}
+function home(){
+  const steps=UNITS.map((u,i)=>{const st=prog.stars[u.id]||0, ok=unlocked(i);
+    return `<button class="step ${st?"done":""}" data-act="open" data-i="${i}" ${ok?"":"disabled"}>
+      <span class="step-n">${i+1}</span><span class="step-pic">${u.cover}</span>
+      <span class="step-txt"><b>${esc(u.en)}</b><small>${esc(u.it)}</small>${u.tag?`<span class="tag ${u.tag==="Nuovo"?"new":""}">${u.tag==="Nuovo"?"Nuovo":"Ripasso"}</span>`:""}${ok?"":`<span class="lock">Completa la lezione ${i} per aprirla</span>`}</span>
+      <span class="stars">${starsHTML(st)}</span></button>`}).join("");
+  return `${header()}<h2 class="path-h">Il tuo percorso</h2>
+  <p class="path-sub">Ogni lezione ha due parti: <b>Impara</b> le parole, poi fai gli <b>Esercizi</b> per vincere le stelle.</p>
+  <div class="path">${steps}</div>
+  <div class="teacher"><label for="teacher"><input type="checkbox" id="teacher" data-act="teacher" ${prog.teacher?"checked":""}> Modalità insegnante (apri tutte le lezioni)</label>
+  ${S.confirmReset?`<span class="confirm">Cancellare tutte le stelle? <button class="btn" data-act="reset-yes">Sì, cancella</button><button class="btn" data-act="reset-no">No</button></span>`
+   :`<button class="link" data-act="reset">Azzera i progressi</button>`}</div>`;
+}
+function unitView(){
+  const u=UNITS[S.u];
+  return `<div class="unit-top"><button class="back" data-act="home">← Percorso</button>
+    <h2>${u.cover} ${esc(u.en)}<small>Lezione ${S.u+1} · ${esc(u.it)}</small></h2></div>
+    ${canSpeak?"":`<div class="note">Questo browser non può leggere le parole ad alta voce. Prova con Chrome, Safari o Edge.</div>`}
+    <div class="tabs" role="group"><button data-act="tab" data-t="learn" aria-pressed="${S.tab==="learn"}">Impara</button><button data-act="tab" data-t="practice" aria-pressed="${S.tab==="practice"}">Esercizi</button></div>
+    ${S.tab==="learn"?learn(u):practice(u)}`;
+}
+function learn(u){
+  let body;
+  if(u.kind==="grammar"){
+    body=`<p class="hint">Leggi le regole con l'insegnante. Tocca un esempio per ascoltarlo.</p><div class="rules">${u.rules.map(r=>
+      `<section class="rule"><h3><span aria-hidden="true">${r.pic}</span>${esc(r.t)}</h3><p>${r.it}</p><div class="exs">${r.ex.map(e=>
+      `<button class="exb" data-act="say" data-t="${esc(plain(e[0]))}"><span>${mk(e[0])}</span><small>${esc(e[1])}</small></button>`).join("")}</div></section>`).join("")}</div>`;
+  } else if(u.kind==="abc"){
+    body=`<p class="hint">Tocca una lettera per sentire come si dice. In rosso: come si pronuncia.</p><div class="cards">${u.items.map(it=>
+      `<button class="card" data-act="sayseq" data-a="${esc(it.en+".")}" data-b="${esc(it.en+" is for "+it.word+".")}">
+       <span class="letter">${it.en}<span>${it.en.toLowerCase()}</span></span><span class="pr">«${esc(it.p)}»</span>
+       <span class="emo" style="font-size:36px">${it.pic}</span><span class="en" style="font-size:18px">${esc(it.word)}</span><span class="it">${esc(it.wordIt)}</span></button>`).join("")}</div>`;
+  } else if(u.kind==="phrases"){
+    body=`<p class="hint">Tocca una frase per ascoltarla. In rosso: come si pronuncia.</p><div class="cards phr">${u.items.map(it=>
+      `<button class="card" data-act="say" data-t="${esc(it.en)}">${pic(it)}<div><span class="en">${esc(it.en)}</span><span class="it">${esc(it.it)}</span><span class="pr">«${esc(it.p)}»</span></div></button>`).join("")}</div>
+      <div class="dialog"><h3>Un piccolo dialogo</h3><p class="hint">Leggilo con l'insegnante: tu sei il fumetto giallo. Tocca per ascoltare.</p><div class="bubbles">${u.dialog.map((d,i)=>
+      `<button class="bub ${i%2?"b":"a"}" data-act="say" data-t="${esc(d[0])}">${esc(d[0])}<small>${esc(d[1])}</small></button>`).join("")}</div></div>`;
+  } else {
+    body=`<p class="hint">Tocca una carta per sentire la parola e la frase.</p><div class="cards">${u.items.map(it=>
+      `<button class="card" data-act="sayseq" data-a="${esc(it.en)}" data-b="${esc(it.ex||"")}">${pic(it)}
+       <span class="en">${esc(it.en)}</span><span class="it">${esc(it.it)}</span>${it.p?`<span class="pr">«${esc(it.p)}»</span>`:""}${it.ex?`<span class="ex">${esc(it.ex)}</span>`:""}</button>`).join("")}</div>`;
+  }
+  return body+`<div class="start-practice"><button class="btn main big" data-act="tab" data-t="practice">Pronto? Vai agli esercizi →</button></div>`;
+}
+function practice(u){
+  if(!S.round) S.round=buildRound(u);
+  const R=S.round;
+  if(R.done){
+    const st=R.score>=9?3:R.score>=7?2:R.score>=5?1:0;
+    const msg=st===3?"Fantastico!":st===2?"Molto bene!":st===1?"Bene!":"Riproviamo insieme!";
+    const next=S.u<UNITS.length-1&&(st>=1||prog.teacher);
+    return `<div class="q end"><div class="big-stars">${starsHTML(st)}</div><h3>${msg}</h3>
+      <p>Hai risposto bene a ${R.score} domande su ${R.qs.length}.${st===0?" Ti serve almeno 5 per la prima stella.":""}</p>
+      <div class="actions"><button class="btn main" data-act="again">Riprova</button>
+      ${next?`<button class="btn sky" data-act="next">Lezione successiva →</button>`:""}
+      <button class="btn" data-act="home">Torna al percorso</button></div></div>`;
+  }
+  const q=R.qs[R.i];
+  let inner;
+  if(q.type==="order"){
+    const res=R.answered;
+    inner=`<div class="built ${res?(R.right?"ok":"ko"):""}">${q.built.length?q.built.map((b,i)=>
+        `<button class="wtile" data-act="wslot" data-i="${i}" ${res?"disabled":""}>${esc(b.w)}</button>`).join(""):`<span class="built-ph">Tocca le parole qui sotto</span>`}</div>
+      ${res?"":`<div class="tiles">${q.tiles.map((t,i)=>`<button class="wtile" data-act="wtile" data-i="${i}" ${t.used?"disabled":""}>${esc(t.w)}</button>`).join("")}</div>
+      <div class="spell-actions"><button class="btn main" data-act="wcheck" ${q.built.length===q.words.length?"":"disabled"}>Controlla</button></div>`}`;
+  } else if(q.type==="spell"){
+    const res=R.answered;
+    inner=`<div class="slots">${q.word.split("").map((c,i)=>{const b=q.built[i];
+        const cls=res?(b&&b.c===c?"ok":"ko"):"";
+        return `<button class="slot ${cls}" data-act="slot" data-i="${i}" ${res?"disabled":""} aria-label="lettera ${i+1}">${b?b.c:""}</button>`}).join("")}</div>
+      ${res?"":`<div class="tiles">${q.tiles.map((t,i)=>`<button class="tile" data-act="tile" data-i="${i}" ${t.used?"disabled":""}>${t.c}</button>`).join("")}</div>
+      <div class="spell-actions"><button class="btn" data-act="say" data-t="${esc(q.word)}">${SPK} Aiuto</button>
+      <button class="btn main" data-act="check" ${q.built.length===q.word.length?"":"disabled"}>Controlla</button></div>`}`;
+  } else {
+    inner=`<div class="opts ${q.cls}">${q.opts.map(o=>{let c="";
+      if(R.answered){ if(o.id===q.ans) c="right"; else if(o.id===R.chosen) c="wrong"; else c="dim"; }
+      return `<button class="opt ${c}" data-act="ans" data-id="${esc(o.id)}" ${R.answered?"disabled":""}>${o.html}</button>`}).join("")}</div>`;
+  }
+  let fb="";
+  if(R.answered){
+    const correct=q.type==="spell"?q.word:q.type==="order"?q.sentence:q.ans;
+    const itTxt=q.type==="spell"?(q.item.wordIt||q.item.it):(q.item.wordIt&&q.type==="picLetter"?q.item.word:q.item.it);
+    fb=`<div class="fb ${R.right?"good":"bad"}"><div><b>${R.right?pick(["Bravo!","Ottimo!","Perfetto!","Great job!","Well done!"]):"Quasi!"}</b>
+      ${R.right?"":`La risposta giusta è: <strong>${esc(correct)}</strong>`}${itTxt&&R.right?esc(correct)+" = "+esc(itTxt):""}</div>
+      <button class="btn main" data-act="nextq" id="nextq">${R.i<R.qs.length-1?"Avanti →":"Vedi il risultato"}</button></div>`;
+  }
+  return `<div class="bar" aria-label="Domanda ${R.i+1} di ${R.qs.length}"><i style="width:${(R.i/R.qs.length)*100}%"></i></div>
+    <div class="q"><p class="q-title">${R.i+1}. ${T[q.type]}</p><div class="stage">${q.stage}</div>${inner}${fb}</div>`;
+}
+
+/* ---------------- EVENTS ---------------- */
+function finishAnswer(right){
+  const R=S.round, q=R.qs[R.i];
+  R.answered=true; R.right=right; if(right) R.score++;
+  const t=q.type==="spell"?q.word:q.type==="order"?q.sentence:(q.sayAfter||(q.type==="listenLetter"?q.ans+".":(q.type==="dialog"?q.ans:(q.type==="picLetter"?q.item.word:q.ans))));
+  render(); say(t);
+  const n=document.getElementById("nextq"); if(n) n.focus({preventScroll:true});
+}
+function autoSay(){const R=S.round; if(!R||R.done) return; const q=R.qs[R.i]; if(q&&q.say) setTimeout(()=>say(q.say),250);}
+
+app.addEventListener("click",e=>{
+  const b=e.target.closest("[data-act]"); if(!b) return;
+  const a=b.dataset.act;
+  if(a==="teacher") return;
+  if(a==="say"){ say(b.dataset.t); flash(b); return; }
+  if(a==="sayslow"){ say(b.dataset.t,true); return; }
+  if(a==="sayseq"){ flash(b); if(!canSpeak) return; say(b.dataset.a);
+    if(b.dataset.b){ const u=new SpeechSynthesisUtterance(b.dataset.b); u.lang=voice?voice.lang:"en-GB"; if(voice)u.voice=voice; u.rate=0.88; speechSynthesis.speak(u);} return; }
+  if(a==="open"){ S.view="unit"; S.u=+b.dataset.i; S.tab="learn"; S.round=null; render(); window.scrollTo(0,0); return; }
+  if(a==="home"){ S.view="home"; S.round=null; render(); window.scrollTo(0,0); return; }
+  if(a==="tab"){ S.tab=b.dataset.t; if(S.tab==="practice"&&(!S.round||S.round.done)) S.round=null; render(); if(S.tab==="practice") autoSay(); return; }
+  if(a==="reset"){ S.confirmReset=true; render(); return; }
+  if(a==="reset-no"){ S.confirmReset=false; render(); return; }
+  if(a==="reset-yes"){ prog.stars={}; save(); S.confirmReset=false; render(); return; }
+  const R=S.round; if(!R) return;
+  const q=R.qs[R.i];
+  if(a==="ans"&&!R.answered){ R.chosen=b.dataset.id; finishAnswer(R.chosen===q.ans); return; }
+  if(a==="tile"){ const t=q.tiles[+b.dataset.i]; if(t.used||q.built.length>=q.word.length) return; t.used=true; q.built.push({c:t.c,ti:+b.dataset.i}); render(); return; }
+  if(a==="slot"){ const i=+b.dataset.i; if(i>=q.built.length) return; q.built.splice(i).forEach(x=>q.tiles[x.ti].used=false); render(); return; }
+  if(a==="wtile"){ const t=q.tiles[+b.dataset.i]; if(t.used) return; t.used=true; q.built.push({w:t.w,ti:+b.dataset.i}); render(); return; }
+  if(a==="wslot"){ const x=q.built.splice(+b.dataset.i,1)[0]; if(x) q.tiles[x.ti].used=false; render(); return; }
+  if(a==="wcheck"){ finishAnswer(q.built.map(x=>x.w).join(" ")===q.words.join(" ")); return; }
+  if(a==="check"){ finishAnswer(q.built.map(x=>x.c).join("")===q.word); return; }
+  if(a==="nextq"){ if(R.i<R.qs.length-1){ R.i++; R.answered=false; R.chosen=null; R.right=null; render(); autoSay(); }
+    else { R.done=true; const st=R.score>=9?3:R.score>=7?2:R.score>=5?1:0; const id=UNITS[S.u].id;
+      if(st>(prog.stars[id]||0)){prog.stars[id]=st; save();} render(); } return; }
+  if(a==="again"){ S.round=null; render(); autoSay(); return; }
+  if(a==="next"){ S.u++; S.tab="learn"; S.round=null; render(); window.scrollTo(0,0); return; }
+});
+app.addEventListener("change",e=>{ if(e.target.id==="teacher"){ prog.teacher=e.target.checked; save(); render(); } });
+function flash(el){ el.classList.add("playing"); setTimeout(()=>el.classList.remove("playing"),900); }
+
+render();
+</script>
+
+<!-- APP END -->
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js").then(reg => {
+    reg.update();
+    reg.addEventListener("updatefound", () => {
+      const w = reg.installing;
+      w && w.addEventListener("statechange", () => {
+        if (w.state === "installed" && navigator.serviceWorker.controller) location.reload();
+      });
+    });
+  }).catch(() => {});
+}
+</script>
+</body>
+</html>
