@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#e4512f">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
-<meta name="app-version" content="20261030-1536-173983">
+<meta name="app-version" content="20261030-1548-5c4410">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
@@ -209,6 +209,86 @@ mark{background:none;color:var(--tomato);font-weight:700}
 .built .wtile{background:var(--card);color:var(--ink)}
 .built.ok .wtile{background:var(--good-bg);border-color:var(--leaf)}
 .built.ko .wtile{background:var(--bad-bg);border-color:var(--tomato)}
+/* compiti */
+.hw-card{width:100%;display:flex;align-items:center;gap:14px;text-align:left;background:var(--sun);color:#1c2943;border:2px solid var(--ink);border-radius:var(--r);padding:14px 16px;box-shadow:4px 4px 0 var(--ink);margin-bottom:26px}
+.hw-card:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.hw-card .step-txt small{color:#3b4660}
+.hw-ico{font-size:38px;flex:none}
+.dot{flex:none;min-width:34px;height:34px;border-radius:999px;background:var(--tomato);color:#fff;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:19px;border:2px solid var(--ink)}
+.arrow{flex:none;font-size:24px;font-weight:700}
+.hw-list{display:grid;gap:10px}
+.hw-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;text-align:left;background:var(--card);border:2px solid var(--ink);border-radius:var(--r);padding:12px 16px;box-shadow:3px 3px 0 var(--ink)}
+.hw-date{flex:none;font-family:var(--f-display);font-weight:700;color:var(--tomato);min-width:90px}
+.hw-t{flex:1;min-width:180px;display:flex;flex-direction:column}
+.hw-t b{font-family:var(--f-display);font-size:20px;line-height:1.15}
+.hw-t small{color:var(--muted);font-size:14px}
+.pill{flex:none;font-size:14px;font-weight:700;border-radius:999px;padding:3px 12px;border:2px solid currentColor}
+.pill.todo{color:var(--tomato)}
+.pill.sent{color:var(--sky)}
+.pill.graded{color:var(--leaf)}
+.namebox{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:18px;font-weight:700}
+.namebox input,.hw-in,.gate input,#tcomm,#tvoto{font:inherit;color:var(--ink);background:var(--card);border:2px solid var(--line);border-radius:12px;padding:8px 12px}
+.namebox input{flex:1;min-width:0;max-width:320px}
+.hw-in:focus,.namebox input:focus,#tcomm:focus,.gate input:focus{outline:none;border-color:var(--sky)}
+.hw-sec{background:var(--card);border:2px solid var(--ink);border-radius:var(--r);padding:16px 18px;margin-bottom:16px}
+.hw-sec h3{font-size:22px;margin-bottom:4px}
+.hw-sec .hint{margin-bottom:10px}
+.hw-items{margin:0;padding-left:26px;display:grid;gap:14px}
+.hw-items li{padding-left:4px}
+.hw-items li::marker{font-family:var(--f-display);font-weight:700;color:var(--muted)}
+.hw-q{display:flex;gap:8px;align-items:baseline;font-size:18px;margin-bottom:6px}
+.blank.sm{min-width:56px;border-bottom-width:3px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:2px solid var(--line);border-radius:999px;background:var(--paper);padding:5px 14px;font-weight:700}
+.chip:hover:not(:disabled){border-color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--sky);border-color:var(--sky);color:#fff}
+.chip:disabled{cursor:default}
+.chip:disabled:not([aria-pressed="true"]){opacity:.5}
+.hw-in{width:100%;max-width:560px}
+.hw-in[readonly]{background:var(--paper)}
+.mk{flex:none;font-weight:800;font-size:20px}
+.mk.ok{color:var(--leaf)}
+.mk.ko{color:var(--tomato)}
+.fix{margin-top:4px;font-size:15px;color:var(--leaf)}
+.hw-banner{border:2px solid var(--ink);border-radius:var(--r);padding:16px 18px;margin-bottom:18px;box-shadow:4px 4px 0 var(--ink)}
+.hw-banner p{margin:4px 0 0}
+.hw-banner.sent{background:var(--card)}
+.hw-banner.graded{background:var(--good-bg);display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.hw-banner.graded>div:last-child{flex:1;min-width:200px}
+.voto{font-family:var(--f-display);font-weight:800;font-size:64px;line-height:1;color:var(--leaf)}
+.voto small{font-size:22px;color:var(--muted)}
+.comm{font-style:italic}
+.hw-submit{display:grid;gap:10px;justify-items:start;margin-top:8px}
+.hw-submit p{margin:0}
+.confirm-box{background:var(--card);border:2px solid var(--tomato);border-radius:var(--r);padding:14px 16px;display:grid;gap:10px}
+.confirm-box .row,.share-btns,.t-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.warn{color:var(--tomato);font-weight:700}
+.small{font-size:14px;color:var(--muted);margin:0}
+.share{display:grid;gap:10px;margin-top:12px}
+.btn.wa{background:var(--leaf);color:#fff;text-decoration:none}
+a.btn{text-decoration:none;color:var(--ink)}
+.linkbox{width:100%;font:13px/1.4 ui-monospace,Consolas,monospace;color:var(--muted);background:var(--paper);border:2px dashed var(--line);border-radius:10px;padding:8px;resize:none;word-break:break-all}
+.gate{display:grid;gap:8px;max-width:360px;font-weight:700}
+.gate input{width:160px}
+.empty{background:var(--card);border:2px dashed var(--line);border-radius:var(--r);padding:18px}
+.empty p{margin:6px 0 0;color:var(--muted)}
+.t-item{border-left:4px solid var(--line);padding-left:10px!important}
+.t-item.is-ok{border-left-color:var(--leaf)}
+.t-item.is-ko{border-left-color:var(--tomato)}
+.t-ans{font-size:16px;margin-bottom:6px;overflow-wrap:anywhere}
+.lbl{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-left:6px}
+.lbl:first-child{margin-left:0}
+.t-marks{display:flex;gap:6px;flex-wrap:wrap}
+.tm{border:2px solid var(--line);border-radius:10px;background:var(--paper);min-width:44px;padding:4px 10px;font-weight:800;font-size:17px}
+.tm.ok[aria-pressed="true"]{background:var(--leaf);border-color:var(--leaf);color:#fff}
+.tm.ko[aria-pressed="true"]{background:var(--tomato);border-color:var(--tomato);color:#fff}
+.tm:not(.ok):not(.ko)[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper);font-size:14px}
+.t-final{background:var(--card);border:2px solid var(--ink);border-radius:var(--r);padding:16px 18px;box-shadow:4px 4px 0 var(--ink);display:grid;gap:10px}
+.t-score{font-size:18px}
+.t-final label{font-weight:700}
+#tvoto{font-family:var(--f-display);font-size:22px;font-weight:700}
+#tcomm{width:100%;resize:vertical}
+.toast{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--leaf);color:#fff;font-weight:700;border-radius:12px;padding:10px 14px;margin-bottom:14px;border:2px solid var(--ink)}
 .note{background:var(--bad-bg);border-radius:12px;padding:10px 14px;margin-bottom:16px;font-size:15px}
 @media (max-width:420px){.cards{grid-template-columns:1fr 1fr}.opts.pics .opt{min-height:96px}.stage .emo{font-size:70px}}
 </style>
@@ -518,11 +598,210 @@ function buildRound(u){
   return {qs:shuffle(qs),i:0,score:0,done:false,answered:false,chosen:null,right:null};
 }
 
+/* ---------------- COMPITI PER CASA ----------------
+   Serverless round trip: the child submits -> link #c=... -> teacher opens it, corrects -> link #v=... -> child opens it. */
+const APP_URL="https://mahnoushchangizi.github.io/english-passo-passo/";
+const PIN="7311";
+const Ch=(q,o,a)=>({k:"c",q,o,a}), Tx=(q,a)=>({k:"t",q,a}), Op=q=>({k:"o",q});
+const THERE=["There is","There are","There isn't","There aren't","Is there","Are there"];
+const HOMEWORK=[
+ {id:"hw1",title:"Do, There is, How much",date:"2026-10-30",
+  intro:"Ripasso di do/does, there is/are, some/any/a few e la nuova lezione How much / How many.",
+  sections:[
+   {t:"1 · Do o Does?",i:"Scegli do oppure does. Ricorda: he, she, it → does.",items:[
+     Ch("___ you like chocolate?",["Do","Does"],"Do"),Ch("___ your sister go to school?",["Do","Does"],"Does"),
+     Ch("___ they play basketball?",["Do","Does"],"Do"),Ch("Where ___ your grandparents live?",["do","does"],"do"),
+     Ch("___ your dog sleep on your bed?",["Do","Does"],"Does"),Ch("What ___ you eat for breakfast?",["do","does"],"do"),
+     Ch("___ Marco speak English?",["Do","Does"],"Does"),Ch("___ we have homework today?",["Do","Does"],"Do")]},
+   {t:"2 · Risposte brevi",i:"Rispondi con una risposta breve, per esempio: Yes, I do. / No, she doesn't.",items:[
+     Tx("Do you like pizza?",["Yes, I do.","No, I don't."]),Tx("Does your mum work?",["Yes, she does.","No, she doesn't."])]},
+   {t:"3 · Frasi negative",i:"Riscrivi la frase in forma negativa con don't o doesn't. Esempio: She likes milk. → She doesn't like milk.",items:[
+     Tx("I like spiders.",["I don't like spiders."]),Tx("Tom plays the piano.",["Tom doesn't play the piano."]),
+     Tx("We watch TV in the morning.",["We don't watch TV in the morning."]),Tx("My cat eats carrots.",["My cat doesn't eat carrots."]),
+     Tx("They live in Rome.",["They don't live in Rome."]),Tx("My dad drinks coffee.",["My dad doesn't drink coffee."])]},
+   {t:"4 · There is o There are?",i:"Scegli la forma giusta.",items:[
+     Ch("___ a big window in my classroom.",THERE,"There is"),Ch("___ twenty students in my class.",THERE,"There are"),
+     Ch("___ a swimming pool at your school? – No, there isn't.",THERE,"Is there"),Ch("___ any shops near your house? – Yes, there are.",THERE,"Are there"),
+     Ch("___ any milk in the fridge. Let's buy some!",THERE,"There isn't"),Ch("___ two cats and a dog in the garden.",THERE,"There are"),
+     Ch("___ any chairs in the room. We sit on the floor.",THERE,"There aren't"),Ch("___ a computer in your bedroom? – Yes, there is.",THERE,"Is there")]},
+   {t:"5 · Some, any o a few?",i:"some → frasi affermative · any → negative e domande · a few → alcuni, pochi.",items:[
+     Ch("There are ___ apples on the table.",["some","any"],"some"),Ch("Are there ___ biscuits in the box?",["some","any"],"any"),
+     Ch("I don't have ___ brothers.",["some","any"],"any"),Ch("There are only ___ children in the park today.",["a few","any"],"a few"),
+     Ch("We haven't got ___ bread.",["some","any"],"any"),Ch("I have ___ new pencils for school.",["some","any"],"some"),
+     Ch("Is there ___ juice?",["some","any"],"any"),Ch("There are ___ books on my desk, not many.",["a few","any"],"a few")]},
+   {t:"6 · Si conta o no? (nuovo)",i:"Questa parola si può contare?",items:[
+     Ch("apple",["Si conta","Non si conta"],"Si conta"),Ch("milk",["Si conta","Non si conta"],"Non si conta"),
+     Ch("egg",["Si conta","Non si conta"],"Si conta"),Ch("cheese",["Si conta","Non si conta"],"Non si conta"),
+     Ch("water",["Si conta","Non si conta"],"Non si conta"),Ch("chair",["Si conta","Non si conta"],"Si conta"),
+     Ch("bread",["Si conta","Non si conta"],"Non si conta"),Ch("friend",["Si conta","Non si conta"],"Si conta")]},
+   {t:"7 · How much o How many? (nuovo)",i:"How many + plurale · How much + cose che non si contano.",items:[
+     Ch("___ sisters do you have?",["How much","How many"],"How many"),Ch("___ water do you drink every day?",["How much","How many"],"How much"),
+     Ch("___ pencils are there in your bag?",["How much","How many"],"How many"),Ch("___ money is there in your piggy bank?",["How much","How many"],"How much")]},
+   {t:"8 · A few o a little? (nuovo)",i:"a few + plurale · a little + cose che non si contano.",items:[
+     Ch("I want ___ sugar in my tea.",["a few","a little"],"a little"),Ch("There are ___ birds in the tree.",["a few","a little"],"a few"),
+     Ch("Can I have ___ cheese, please?",["a few","a little"],"a little"),Ch("I have ___ friends in Genova.",["a few","a little"],"a few")]},
+   {t:"9 · La mia camera",i:"Scrivi 5 frasi sulla tua camera con there is, there are, some, any, a few. Poi scrivi 2 domande per l'insegnante con Do you…? o Does your…?",items:[
+     Op("Frase 1"),Op("Frase 2"),Op("Frase 3"),Op("Frase 4"),Op("Frase 5"),Op("Domanda 1"),Op("Domanda 2")]}
+  ]}
+];
+prog.hw=prog.hw||{};
+const TKEY="epp-teacher-v1";
+let tst={received:{}};
+try{const s=JSON.parse(localStorage.getItem(TKEY)); if(s&&s.received) tst=s;}catch(e){}
+function tsave(){try{localStorage.setItem(TKEY,JSON.stringify(tst))}catch(e){}}
+let teacherOK=false; try{teacherOK=sessionStorage.getItem("epp-t")==="1"}catch(e){}
+
+const hwById=id=>HOMEWORK.find(h=>h.id===id);
+const allItems=h=>h.sections.flatMap((s,si)=>s.items.map((it,ii)=>Object.assign({key:si+"-"+ii},it)));
+const norm=s=>String(s||"").toLowerCase().replace(/[’‘`]/g,"'").replace(/\bdo not\b/g,"don't").replace(/\bdoes not\b/g,"doesn't")
+  .replace(/\bis not\b/g,"isn't").replace(/\bare not\b/g,"aren't").replace(/\s+/g," ").trim().replace(/[.!?]+$/,"").trim();
+function autoMark(it,v){ if(it.k==="o") return null; if(v==null||String(v).trim()==="") return 0;
+  if(it.k==="c") return v===it.a?1:0; return it.a.some(x=>norm(x)===norm(v))?1:0; }
+const autoMarks=(hid,a)=>{const h=hwById(hid),m={}; if(h) allItems(h).forEach(it=>m[it.key]=autoMark(it,(a||{})[it.key])); return m;};
+const fmtVoto=v=>v==null?"–":(Math.floor(v)+(v%1?"½":""));
+const fmtDate=ms=>new Date(ms).toLocaleDateString("it-IT",{day:"numeric",month:"long"});
+function hwState(h){const r=prog.hw[h.id]; if(!r||!r.submittedAt) return "todo"; return r.correction?"graded":"sent";}
+const qHTML=it=>it.k==="c"?esc(it.q).replace("___",'<span class="blank sm"></span>'):esc(it.q);
+
+const b64u=bytes=>{let s="";for(let i=0;i<bytes.length;i++)s+=String.fromCharCode(bytes[i]);return btoa(s).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");};
+const unb64u=str=>{const s=atob(str.replace(/-/g,"+").replace(/_/g,"/"));const b=new Uint8Array(s.length);for(let i=0;i<s.length;i++)b[i]=s.charCodeAt(i);return b;};
+async function enc(obj){const raw=new TextEncoder().encode(JSON.stringify(obj));
+  if(window.CompressionStream){const z=await new Response(new Blob([raw]).stream().pipeThrough(new CompressionStream("deflate-raw"))).arrayBuffer();return "z"+b64u(new Uint8Array(z));}
+  return "j"+b64u(raw);}
+async function dec(str){let b=unb64u(str.slice(1));
+  if(str[0]==="z") b=new Uint8Array(await new Response(new Blob([b]).stream().pipeThrough(new DecompressionStream("deflate-raw"))).arrayBuffer());
+  return JSON.parse(new TextDecoder().decode(b));}
+
+function sharePanel(url,msg,subject){
+  const wa="https://wa.me/?text="+encodeURIComponent(msg+"\n"+url);
+  const mail="mailto:?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(msg+"\n\n"+url);
+  return `<div class="share"><div class="share-btns"><a class="btn wa" href="${esc(wa)}" target="_blank" rel="noopener">Manda con WhatsApp</a>
+    <a class="btn" href="${esc(mail)}">Manda per email</a><button class="btn" data-act="copylink">Copia il link</button></div>
+    <textarea class="linkbox" id="linkbox" readonly rows="2" aria-label="Link">${esc(url)}</textarea><p class="small" id="copymsg" aria-live="polite"></p></div>`;
+}
+function copyLink(){const box=document.getElementById("linkbox"), msg=document.getElementById("copymsg"); if(!box) return;
+  const fallback=()=>{box.focus();box.select();msg.textContent="Il link è selezionato: premi Ctrl+C per copiarlo.";};
+  try{navigator.clipboard.writeText(box.value).then(()=>{msg.textContent="Link copiato. Ora incollalo in un messaggio.";},fallback);}catch(e){fallback();}}
+
+function hwCard(){
+  const todo=HOMEWORK.filter(h=>hwState(h)==="todo").length, last=HOMEWORK[HOMEWORK.length-1], lst=hwState(last), lr=prog.hw[last.id];
+  const sub=todo?(todo===1?"Hai un compito da fare":`Hai ${todo} compiti da fare`):lst==="sent"?"Consegnato · aspetta il voto":`Ultimo voto: ${fmtVoto(lr.correction.v)}`;
+  return `<button class="hw-card" data-act="hw"><span class="hw-ico" aria-hidden="true">📒</span><span class="step-txt"><b>Compiti per casa</b><small>${sub}</small></span>${todo?`<span class="dot">${todo}</span>`:`<span class="arrow" aria-hidden="true">→</span>`}</button>`;
+}
+function hwList(){
+  const rows=HOMEWORK.slice().reverse().map(h=>{const st=hwState(h), r=prog.hw[h.id];
+    const pill=st==="todo"?`<span class="pill todo">Da fare</span>`:st==="sent"?`<span class="pill sent">Consegnato</span>`:`<span class="pill graded">Voto ${fmtVoto(r.correction.v)}</span>`;
+    return `<button class="hw-row" data-act="hwopen" data-id="${h.id}"><span class="hw-date">${fmtDate(Date.parse(h.date))}</span><span class="hw-t"><b>${esc(h.title)}</b><small>${esc(h.intro)}</small></span>${pill}</button>`}).join("");
+  return `<div class="unit-top"><button class="back" data-act="home">← Percorso</button><h2>📒 Compiti per casa<small>Fai i compiti qui e consegnali all'insegnante</small></h2></div><div class="hw-list">${rows}</div>`;
+}
+function itemHTML(it,key,val,locked,corr){
+  const m=corr?corr.m[key]:undefined;
+  const mark=m===1?`<span class="mk ok" title="Giusto">✓</span>`:m===0?`<span class="mk ko" title="Sbagliato">✗</span>`:"";
+  const fix=(m===0&&it.k!=="o")?`<div class="fix">Giusto: <b>${esc(it.k==="c"?it.a:it.a[0])}</b></div>`:"";
+  const field=it.k==="c"
+    ?`<div class="chips">${it.o.map(o=>`<button class="chip" data-act="hwpick" data-k="${key}" data-v="${esc(o)}" aria-pressed="${val===o}" ${locked?"disabled":""}>${esc(o)}</button>`).join("")}</div>`
+    :`<input class="hw-in" data-in="ans" data-k="${key}" value="${esc(val||"")}" ${locked?"readonly":""} autocomplete="off" spellcheck="false" placeholder="${it.k==="o"?"Scrivi in inglese…":"Scrivi la risposta…"}" aria-label="${esc(it.q)}">`;
+  return `<div class="hw-q">${mark}<span>${qHTML(it)}</span></div>${field}${fix}`;
+}
+const unansCount=(h,r)=>allItems(h).filter(it=>!String(r.answers[it.key]||"").trim()).length;
+function hwDo(){
+  const h=hwById(S.hw), r=prog.hw[h.id]||(prog.hw[h.id]={answers:{}});
+  const st=hwState(h), locked=st!=="todo", corr=r.correction;
+  const secs=h.sections.map((s,si)=>`<section class="hw-sec"><h3>${esc(s.t)}</h3><p class="hint">${esc(s.i)}</p><ol class="hw-items">${
+    s.items.map((it,ii)=>`<li>${itemHTML(it,si+"-"+ii,r.answers[si+"-"+ii],locked,corr)}</li>`).join("")}</ol></section>`).join("");
+  let top="", bottom="";
+  if(st==="graded"){
+    const vals=Object.values(corr.m), ok=vals.filter(x=>x===1).length, tot=vals.filter(x=>x===0||x===1).length;
+    top=`<div class="hw-banner graded"><div class="voto">${fmtVoto(corr.v)}<small>/10</small></div><div><b>Corretto dall'insegnante</b><p>${ok} risposte giuste su ${tot}. Le risposte sbagliate hanno sotto la soluzione.</p>${corr.c?`<p class="comm">“${esc(corr.c)}”</p>`:""}</div></div>`;
+  } else if(st==="sent"){
+    top=`<div class="hw-banner sent"><b>Consegnato il ${fmtDate(r.submittedAt)}. Ora aspetta il voto.</b><p>Se non l'hai ancora fatto, manda questo link all'insegnante.</p>${sharePanel(r.link,`Ho finito i compiti di inglese! (${prog.name||""})`,"Compiti di inglese – "+h.title)}</div>`;
+  } else {
+    top=`<div class="namebox"><label for="stname">Il tuo nome</label><input id="stname" data-in="name" value="${esc(prog.name||"")}" placeholder="Scrivi il tuo nome" autocomplete="off"></div>`;
+    const miss=unansCount(h,r), noName=!String(prog.name||"").trim();
+    bottom=`<div class="hw-submit"><p id="unans">${miss?`Ti mancano ${miss} risposte.`:"Hai risposto a tutto!"}</p>${S.confirmSend
+      ?`<div class="confirm-box"><b>Vuoi consegnare?</b> Dopo non puoi più cambiare le risposte.${noName?` <span class="warn">Scrivi prima il tuo nome in alto.</span>`:""}
+        <div class="row"><button class="btn main" data-act="hwsend" ${noName?"disabled":""}>Sì, consegna</button><button class="btn" data-act="hwsend-no">Non ancora</button></div></div>`
+      :`<button class="btn main big" data-act="hwsend-ask">Consegna all'insegnante</button>`}<p class="small">Le risposte si salvano da sole: puoi chiudere e continuare dopo.</p></div>`;
+  }
+  return `<div class="unit-top"><button class="back" data-act="hw">← Compiti</button><h2>📒 ${esc(h.title)}<small>Compito del ${fmtDate(Date.parse(h.date))}</small></h2></div>
+    <p class="hint">${esc(h.intro)}</p>${top}${secs}${bottom}`;
+}
+async function submitHw(){
+  const h=hwById(S.hw), r=prog.hw[h.id];
+  r.submittedAt=Date.now(); r.k=r.k||Math.random().toString(36).slice(2,10);
+  r.link=APP_URL+"#c="+await enc({t:"c",h:h.id,k:r.k,n:String(prog.name||"").trim(),a:r.answers,s:r.submittedAt});
+  save(); S.confirmSend=false; render(); window.scrollTo(0,0);
+}
+
+function teacherGate(){
+  return `<div class="unit-top"><button class="back" data-act="home">← Percorso</button><h2>✍️ Area insegnante<small>Solo per l'insegnante</small></h2></div>
+  <div class="gate"><label for="pin">Codice insegnante</label><div class="t-row"><input id="pin" type="password" inputmode="numeric" autocomplete="off"><button class="btn main" data-act="pin">Entra</button></div>${S.pinErr?`<p class="warn">Il codice non è giusto. Riprova.</p>`:""}</div>`;
+}
+function teacherList(){
+  const recs=Object.values(tst.received).sort((a,b)=>b.s-a.s);
+  const rows=recs.map(r=>{const h=hwById(r.h);
+    return `<button class="hw-row" data-act="topen" data-k="${esc(r.k)}"><span class="hw-date">${fmtDate(r.s)}</span><span class="hw-t"><b>${esc(r.n||"Studente")}</b><small>${h?esc(h.title):esc(r.h)}</small></span>${r.sentAt?`<span class="pill graded">Voto ${fmtVoto(r.v)}</span>`:`<span class="pill todo">Da correggere</span>`}</button>`}).join("");
+  return `<div class="unit-top"><button class="back" data-act="home">← Percorso</button><h2>✍️ Area insegnante<small>Compiti consegnati</small></h2></div>
+  ${rows?`<div class="hw-list">${rows}</div>`:`<div class="empty"><b>Ancora nessun compito consegnato.</b><p>Quando lo studente consegna, ti manda un link. Aprilo su questo computer: il compito compare qui, pronto da correggere.</p></div>`}`;
+}
+const suggested=(ok,tot)=>tot?Math.max(3,Math.round(ok/tot*20)/2):null;
+function teacherCorr(){
+  const rec=tst.received[S.tk], h=hwById(rec.h);
+  const head=`<div class="unit-top"><button class="back" data-act="tlist">← Consegne</button><h2>✍️ ${esc(rec.n||"Studente")}<small>${h?esc(h.title):"Compito sconosciuto"} · consegnato il ${fmtDate(rec.s)}</small></h2></div>`;
+  if(!h) return head+`<p class="note">Questo compito non c'è in questa versione dell'app. Chiudi e riapri l'app per aggiornarla.</p>`;
+  const marks=allItems(h).map(it=>rec.m[it.key]), ok=marks.filter(x=>x===1).length, tot=marks.filter(x=>x===0||x===1).length;
+  const sug=suggested(ok,tot), v=rec.v!=null?rec.v:sug;
+  const secs=h.sections.map((s,si)=>`<section class="hw-sec"><h3>${esc(s.t)}</h3><ol class="hw-items">${s.items.map((it,ii)=>{
+    const key=si+"-"+ii, ans=rec.a[key], m=rec.m[key], right=it.k==="c"?it.a:it.k==="t"?it.a[0]:null;
+    return `<li class="t-item ${m===1?"is-ok":m===0?"is-ko":""}"><div class="hw-q"><span>${qHTML(it)}</span></div>
+      <div class="t-ans"><span class="lbl">Risposta</span> <b>${ans&&String(ans).trim()?esc(ans):"<i>vuota</i>"}</b>${right!=null&&m!==1?` <span class="lbl">Giusto</span> ${esc(right)}`:""}</div>
+      <div class="t-marks"><button class="tm ok" data-act="tmark" data-k="${key}" data-v="1" aria-pressed="${m===1}" aria-label="Giusto">✓</button><button class="tm ko" data-act="tmark" data-k="${key}" data-v="0" aria-pressed="${m===0}" aria-label="Sbagliato">✗</button>${it.k==="o"?`<button class="tm" data-act="tmark" data-k="${key}" data-v="" aria-pressed="${m==null}">Non conta</button>`:""}</div></li>`}).join("")}</ol></section>`).join("");
+  const opts=[]; for(let x=3;x<=10;x+=.5) opts.push(`<option value="${x}" ${x===v?"selected":""}>${fmtVoto(x)}</option>`);
+  return head+`<p class="hint">Le risposte a scelta e le frasi sono già corrette in automatico. Controlla, cambia ✓/✗ dove serve (le frasi libere le correggi tu), poi dai il voto.</p>${secs}
+  <div class="t-final"><div class="t-score"><b>${ok}</b> giuste su <b>${tot}</b>${sug!=null?` · voto suggerito ${fmtVoto(sug)}`:""}</div>
+    <div class="t-row"><label for="tvoto">Voto</label><select id="tvoto">${opts.join("")}</select></div>
+    <label for="tcomm">Commento per lo studente</label><textarea id="tcomm" rows="3" placeholder="Per esempio: Bravo! Ripassa does / doesn't.">${esc(rec.c||"")}</textarea>
+    ${rec.link?`<div id="tshare"><p><b>Correzione pronta.</b> Manda il link allo studente: quando lo apre, vede il voto e le correzioni nell'app.</p>${sharePanel(rec.link,"Ecco la correzione dei tuoi compiti di inglese:","Correzione compiti – English Passo Passo")}</div>`
+      :`<button class="btn main big" data-act="tsend">Salva e crea il link per lo studente</button>`}</div>`;
+}
+async function sendCorrection(){
+  const rec=tst.received[S.tk], sel=document.getElementById("tvoto"), cm=document.getElementById("tcomm");
+  rec.v=sel?+sel.value:rec.v; rec.c=cm?cm.value.trim():rec.c; rec.sentAt=Date.now();
+  rec.link=APP_URL+"#v="+await enc({t:"v",h:rec.h,k:rec.k,n:rec.n,a:rec.a,s:rec.s,m:rec.m,v:rec.v,c:rec.c,d:rec.sentAt});
+  tsave(); render();
+  const t=document.getElementById("tshare"); if(t) t.scrollIntoView({block:"center"});
+}
+async function handleHash(){
+  const mm=location.hash.match(/^#([cv])=([A-Za-z0-9_-]+)$/); if(!mm) return;
+  try{
+    const p=await dec(mm[2]);
+    if(mm[1]==="c"&&p.t==="c"){
+      if(!tst.received[p.k]) tst.received[p.k]={h:p.h,k:p.k,n:p.n,a:p.a||{},s:p.s,m:autoMarks(p.h,p.a),v:null,c:""};
+      tsave(); S.view="teacher"; S.tk=p.k;
+    } else if(mm[1]==="v"&&p.t==="v"){
+      const r=prog.hw[p.h]||(prog.hw[p.h]={answers:p.a||{}});
+      if(!Object.keys(r.answers||{}).length) r.answers=p.a||{};
+      r.submittedAt=r.submittedAt||p.s||Date.now(); r.k=r.k||p.k;
+      r.correction={m:p.m,v:p.v,c:p.c,d:p.d}; save();
+      S.view="hwdo"; S.hw=p.h; S.flash="È arrivato il voto dell'insegnante!";
+    }
+  }catch(e){ S.flash="Questo link non funziona. Chiedi di mandarlo di nuovo."; }
+  try{history.replaceState(null,"",location.pathname+location.search);}catch(e){}
+  render(); window.scrollTo(0,0);
+}
+window.addEventListener("hashchange",handleHash);
+
 /* ---------------- RENDER ---------------- */
 const app=document.getElementById("app");
 function render(){
-  if(S.view==="home") app.innerHTML=home();
-  else app.innerHTML=unitView();
+  let html;
+  if(S.view==="home") html=home();
+  else if(S.view==="hw") html=hwList();
+  else if(S.view==="hwdo") html=hwDo();
+  else if(S.view==="teacher") html=!teacherOK?teacherGate():(S.tk&&tst.received[S.tk]?teacherCorr():teacherList());
+  else html=unitView();
+  app.innerHTML=(S.flash?`<div class="toast" role="status">${esc(S.flash)}</div>`:"")+html;
+  S.flash=null;
 }
 function header(){
   return `<header class="top"><div class="brand"><h1>English <span>Passo Passo</span></h1><p>Impara l'inglese, un passo alla volta.</p></div>
@@ -534,12 +813,12 @@ function home(){
       <span class="step-n">${i+1}</span><span class="step-pic">${u.cover}</span>
       <span class="step-txt"><b>${esc(u.en)}</b><small>${esc(u.it)}</small>${u.tag?`<span class="tag ${u.tag==="Nuovo"?"new":""}">${u.tag==="Nuovo"?"Nuovo":"Ripasso"}</span>`:""}${ok?"":`<span class="lock">Completa la lezione ${i} per aprirla</span>`}</span>
       <span class="stars">${starsHTML(st)}</span></button>`}).join("");
-  return `${header()}<h2 class="path-h">Il tuo percorso</h2>
+  return `${header()}${hwCard()}<h2 class="path-h">Il tuo percorso</h2>
   <p class="path-sub">Ogni lezione ha due parti: <b>Impara</b> le parole, poi fai gli <b>Esercizi</b> per vincere le stelle.</p>
   <div class="path">${steps}</div>
   <div class="teacher"><label for="teacher"><input type="checkbox" id="teacher" data-act="teacher" ${prog.teacher?"checked":""}> Modalità insegnante (apri tutte le lezioni)</label>
   ${S.confirmReset?`<span class="confirm">Cancellare tutte le stelle? <button class="btn" data-act="reset-yes">Sì, cancella</button><button class="btn" data-act="reset-no">No</button></span>`
-   :`<button class="link" data-act="reset">Azzera i progressi</button>`}</div>`;
+   :`<button class="link" data-act="reset">Azzera i progressi</button>`}<button class="link" data-act="tarea">Area insegnante</button></div>`;
 }
 function unitView(){
   const u=UNITS[S.u];
@@ -642,6 +921,20 @@ app.addEventListener("click",e=>{
   if(a==="reset"){ S.confirmReset=true; render(); return; }
   if(a==="reset-no"){ S.confirmReset=false; render(); return; }
   if(a==="reset-yes"){ prog.stars={}; save(); S.confirmReset=false; render(); return; }
+  if(a==="hw"){ S.view="hw"; render(); window.scrollTo(0,0); return; }
+  if(a==="hwopen"){ S.view="hwdo"; S.hw=b.dataset.id; S.confirmSend=false; render(); window.scrollTo(0,0); return; }
+  if(a==="hwpick"){ const r=prog.hw[S.hw]; if(!r||r.submittedAt) return; r.answers[b.dataset.k]=b.dataset.v; save(); render(); return; }
+  if(a==="hwsend-ask"){ S.confirmSend=true; render(); return; }
+  if(a==="hwsend-no"){ S.confirmSend=false; render(); return; }
+  if(a==="hwsend"){ submitHw(); return; }
+  if(a==="copylink"){ copyLink(); return; }
+  if(a==="tarea"){ S.view="teacher"; S.tk=null; S.pinErr=false; render(); window.scrollTo(0,0); return; }
+  if(a==="pin"){ tryPin(); return; }
+  if(a==="topen"){ S.tk=b.dataset.k; render(); window.scrollTo(0,0); return; }
+  if(a==="tlist"){ S.tk=null; render(); window.scrollTo(0,0); return; }
+  if(a==="tmark"){ const rec=tst.received[S.tk]; rec.m[b.dataset.k]=b.dataset.v===""?null:+b.dataset.v;
+    if(!rec.vManual) rec.v=null; rec.link=null; rec.sentAt=null; tsave(); render(); return; }
+  if(a==="tsend"){ sendCorrection(); return; }
   const R=S.round; if(!R) return;
   const q=R.qs[R.i];
   if(a==="ans"&&!R.answered){ R.chosen=b.dataset.id; finishAnswer(R.chosen===q.ans); return; }
@@ -657,10 +950,21 @@ app.addEventListener("click",e=>{
   if(a==="again"){ S.round=null; render(); autoSay(); return; }
   if(a==="next"){ S.u++; S.tab="learn"; S.round=null; render(); window.scrollTo(0,0); return; }
 });
-app.addEventListener("change",e=>{ if(e.target.id==="teacher"){ prog.teacher=e.target.checked; save(); render(); } });
+app.addEventListener("change",e=>{ if(e.target.id==="teacher"){ prog.teacher=e.target.checked; save(); render(); }
+  if(e.target.id==="tvoto"){ const rec=tst.received[S.tk]; rec.v=+e.target.value; rec.vManual=true; rec.link=null; rec.sentAt=null; tsave(); render(); } });
+app.addEventListener("input",e=>{ const t=e.target;
+  if(t.dataset.in==="name"){ prog.name=t.value; save(); return; }
+  if(t.dataset.in==="ans"){ const r=prog.hw[S.hw]; if(!r||r.submittedAt) return; r.answers[t.dataset.k]=t.value; save();
+    const u=document.getElementById("unans"); if(u){const n=unansCount(hwById(S.hw),r); u.textContent=n?`Ti mancano ${n} risposte.`:"Hai risposto a tutto!";} return; }
+  if(t.id==="tcomm"){ const rec=tst.received[S.tk]; rec.c=t.value; if(rec.link){ rec.link=null; rec.sentAt=null; const s=document.getElementById("tshare");
+    if(s) s.outerHTML=`<button class="btn main big" data-act="tsend">Salva e crea il link per lo studente</button>`; } tsave(); } });
+app.addEventListener("keydown",e=>{ if(e.target.id==="pin"&&e.key==="Enter") tryPin(); });
+function tryPin(){ const el=document.getElementById("pin"); if(el&&el.value.trim()===PIN){ teacherOK=true; S.pinErr=false; try{sessionStorage.setItem("epp-t","1")}catch(e){} }
+  else S.pinErr=true; render(); }
 function flash(el){ el.classList.add("playing"); setTimeout(()=>el.classList.remove("playing"),900); }
 
 render();
+handleHash();
 </script>
 
 <!-- APP END -->
