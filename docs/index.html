@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#e4512f">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
-<meta name="app-version" content="20261030-1548-5c4410">
+<meta name="app-version" content="20261030-1601-a5bcbb">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
@@ -288,6 +288,9 @@ a.btn{text-decoration:none;color:var(--ink)}
 .t-final label{font-weight:700}
 #tvoto{font-family:var(--f-display);font-size:22px;font-weight:700}
 #tcomm{width:100%;resize:vertical}
+.t-fix{display:grid;gap:4px;margin-bottom:8px;max-width:560px}
+.t-fix .lbl{margin-left:0;color:var(--tomato)}
+.sent-ok{background:var(--good-bg);border-radius:12px;padding:12px 14px}
 .toast{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--leaf);color:#fff;font-weight:700;border-radius:12px;padding:10px 14px;margin-bottom:14px;border:2px solid var(--ink)}
 .note{background:var(--bad-bg);border-radius:12px;padding:10px 14px;margin-bottom:16px;font-size:15px}
 @media (max-width:420px){.cards{grid-template-columns:1fr 1fr}.opts.pics .opt{min-height:96px}.stage .emo{font-size:70px}}
@@ -295,6 +298,8 @@ a.btn{text-decoration:none;color:var(--ink)}
 
 <div class="wrap" id="app"></div>
 
+<script src="config.js"></script>
+<script src="compiti.js"></script>
 <script>
 /* ---------------- DATA ---------------- */
 const ABC = [
@@ -602,54 +607,20 @@ function buildRound(u){
    Serverless round trip: the child submits -> link #c=... -> teacher opens it, corrects -> link #v=... -> child opens it. */
 const APP_URL="https://mahnoushchangizi.github.io/english-passo-passo/";
 const PIN="7311";
-const Ch=(q,o,a)=>({k:"c",q,o,a}), Tx=(q,a)=>({k:"t",q,a}), Op=q=>({k:"o",q});
-const THERE=["There is","There are","There isn't","There aren't","Is there","Are there"];
-const HOMEWORK=[
- {id:"hw1",title:"Do, There is, How much",date:"2026-10-30",
-  intro:"Ripasso di do/does, there is/are, some/any/a few e la nuova lezione How much / How many.",
-  sections:[
-   {t:"1 · Do o Does?",i:"Scegli do oppure does. Ricorda: he, she, it → does.",items:[
-     Ch("___ you like chocolate?",["Do","Does"],"Do"),Ch("___ your sister go to school?",["Do","Does"],"Does"),
-     Ch("___ they play basketball?",["Do","Does"],"Do"),Ch("Where ___ your grandparents live?",["do","does"],"do"),
-     Ch("___ your dog sleep on your bed?",["Do","Does"],"Does"),Ch("What ___ you eat for breakfast?",["do","does"],"do"),
-     Ch("___ Marco speak English?",["Do","Does"],"Does"),Ch("___ we have homework today?",["Do","Does"],"Do")]},
-   {t:"2 · Risposte brevi",i:"Rispondi con una risposta breve, per esempio: Yes, I do. / No, she doesn't.",items:[
-     Tx("Do you like pizza?",["Yes, I do.","No, I don't."]),Tx("Does your mum work?",["Yes, she does.","No, she doesn't."])]},
-   {t:"3 · Frasi negative",i:"Riscrivi la frase in forma negativa con don't o doesn't. Esempio: She likes milk. → She doesn't like milk.",items:[
-     Tx("I like spiders.",["I don't like spiders."]),Tx("Tom plays the piano.",["Tom doesn't play the piano."]),
-     Tx("We watch TV in the morning.",["We don't watch TV in the morning."]),Tx("My cat eats carrots.",["My cat doesn't eat carrots."]),
-     Tx("They live in Rome.",["They don't live in Rome."]),Tx("My dad drinks coffee.",["My dad doesn't drink coffee."])]},
-   {t:"4 · There is o There are?",i:"Scegli la forma giusta.",items:[
-     Ch("___ a big window in my classroom.",THERE,"There is"),Ch("___ twenty students in my class.",THERE,"There are"),
-     Ch("___ a swimming pool at your school? – No, there isn't.",THERE,"Is there"),Ch("___ any shops near your house? – Yes, there are.",THERE,"Are there"),
-     Ch("___ any milk in the fridge. Let's buy some!",THERE,"There isn't"),Ch("___ two cats and a dog in the garden.",THERE,"There are"),
-     Ch("___ any chairs in the room. We sit on the floor.",THERE,"There aren't"),Ch("___ a computer in your bedroom? – Yes, there is.",THERE,"Is there")]},
-   {t:"5 · Some, any o a few?",i:"some → frasi affermative · any → negative e domande · a few → alcuni, pochi.",items:[
-     Ch("There are ___ apples on the table.",["some","any"],"some"),Ch("Are there ___ biscuits in the box?",["some","any"],"any"),
-     Ch("I don't have ___ brothers.",["some","any"],"any"),Ch("There are only ___ children in the park today.",["a few","any"],"a few"),
-     Ch("We haven't got ___ bread.",["some","any"],"any"),Ch("I have ___ new pencils for school.",["some","any"],"some"),
-     Ch("Is there ___ juice?",["some","any"],"any"),Ch("There are ___ books on my desk, not many.",["a few","any"],"a few")]},
-   {t:"6 · Si conta o no? (nuovo)",i:"Questa parola si può contare?",items:[
-     Ch("apple",["Si conta","Non si conta"],"Si conta"),Ch("milk",["Si conta","Non si conta"],"Non si conta"),
-     Ch("egg",["Si conta","Non si conta"],"Si conta"),Ch("cheese",["Si conta","Non si conta"],"Non si conta"),
-     Ch("water",["Si conta","Non si conta"],"Non si conta"),Ch("chair",["Si conta","Non si conta"],"Si conta"),
-     Ch("bread",["Si conta","Non si conta"],"Non si conta"),Ch("friend",["Si conta","Non si conta"],"Si conta")]},
-   {t:"7 · How much o How many? (nuovo)",i:"How many + plurale · How much + cose che non si contano.",items:[
-     Ch("___ sisters do you have?",["How much","How many"],"How many"),Ch("___ water do you drink every day?",["How much","How many"],"How much"),
-     Ch("___ pencils are there in your bag?",["How much","How many"],"How many"),Ch("___ money is there in your piggy bank?",["How much","How many"],"How much")]},
-   {t:"8 · A few o a little? (nuovo)",i:"a few + plurale · a little + cose che non si contano.",items:[
-     Ch("I want ___ sugar in my tea.",["a few","a little"],"a little"),Ch("There are ___ birds in the tree.",["a few","a little"],"a few"),
-     Ch("Can I have ___ cheese, please?",["a few","a little"],"a little"),Ch("I have ___ friends in Genova.",["a few","a little"],"a few")]},
-   {t:"9 · La mia camera",i:"Scrivi 5 frasi sulla tua camera con there is, there are, some, any, a few. Poi scrivi 2 domande per l'insegnante con Do you…? o Does your…?",items:[
-     Op("Frase 1"),Op("Frase 2"),Op("Frase 3"),Op("Frase 4"),Op("Frase 5"),Op("Domanda 1"),Op("Domanda 2")]}
-  ]}
-];
+const HOMEWORK=window.EPP_HOMEWORK||[];
+const API=(window.EPP_CONFIG||{}).api||"";
 prog.hw=prog.hw||{};
 const TKEY="epp-teacher-v1";
 let tst={received:{}};
 try{const s=JSON.parse(localStorage.getItem(TKEY)); if(s&&s.received) tst=s;}catch(e){}
 function tsave(){try{localStorage.setItem(TKEY,JSON.stringify(tst))}catch(e){}}
-let teacherOK=false; try{teacherOK=sessionStorage.getItem("epp-t")==="1"}catch(e){}
+let teacherOK=API?!!tst.code:false; if(!API){ try{teacherOK=sessionStorage.getItem("epp-t")==="1"}catch(e){} }
+/* the mailbox: a Google Apps Script web app (text/plain POST, so no CORS preflight) */
+async function api(body){
+  const r=await fetch(API,{method:"POST",body:JSON.stringify(body)});
+  const j=await r.json(); if(!j.ok){ const e=new Error(j.error||"error"); e.code=j.error; throw e; } return j;
+}
+const defFix=it=>it.k==="c"?it.a:it.k==="t"?it.a[0]:"";
 
 const hwById=id=>HOMEWORK.find(h=>h.id===id);
 const allItems=h=>h.sections.flatMap((s,si)=>s.items.map((it,ii)=>Object.assign({key:si+"-"+ii},it)));
@@ -684,6 +655,7 @@ function copyLink(){const box=document.getElementById("linkbox"), msg=document.g
   try{navigator.clipboard.writeText(box.value).then(()=>{msg.textContent="Link copiato. Ora incollalo in un messaggio.";},fallback);}catch(e){fallback();}}
 
 function hwCard(){
+  if(!HOMEWORK.length) return "";
   const todo=HOMEWORK.filter(h=>hwState(h)==="todo").length, last=HOMEWORK[HOMEWORK.length-1], lst=hwState(last), lr=prog.hw[last.id];
   const sub=todo?(todo===1?"Hai un compito da fare":`Hai ${todo} compiti da fare`):lst==="sent"?"Consegnato · aspetta il voto":`Ultimo voto: ${fmtVoto(lr.correction.v)}`;
   return `<button class="hw-card" data-act="hw"><span class="hw-ico" aria-hidden="true">📒</span><span class="step-txt"><b>Compiti per casa</b><small>${sub}</small></span>${todo?`<span class="dot">${todo}</span>`:`<span class="arrow" aria-hidden="true">→</span>`}</button>`;
@@ -697,7 +669,8 @@ function hwList(){
 function itemHTML(it,key,val,locked,corr){
   const m=corr?corr.m[key]:undefined;
   const mark=m===1?`<span class="mk ok" title="Giusto">✓</span>`:m===0?`<span class="mk ko" title="Sbagliato">✗</span>`:"";
-  const fix=(m===0&&it.k!=="o")?`<div class="fix">Giusto: <b>${esc(it.k==="c"?it.a:it.a[0])}</b></div>`:"";
+  const own=corr&&corr.f&&corr.f[key], fx=own||(m===0?defFix(it):"");
+  const fix=(m===0||own)&&fx?`<div class="fix">Correzione: <b>${esc(fx)}</b></div>`:"";
   const field=it.k==="c"
     ?`<div class="chips">${it.o.map(o=>`<button class="chip" data-act="hwpick" data-k="${key}" data-v="${esc(o)}" aria-pressed="${val===o}" ${locked?"disabled":""}>${esc(o)}</button>`).join("")}</div>`
     :`<input class="hw-in" data-in="ans" data-k="${key}" value="${esc(val||"")}" ${locked?"readonly":""} autocomplete="off" spellcheck="false" placeholder="${it.k==="o"?"Scrivi in inglese…":"Scrivi la risposta…"}" aria-label="${esc(it.q)}">`;
@@ -712,9 +685,12 @@ function hwDo(){
   let top="", bottom="";
   if(st==="graded"){
     const vals=Object.values(corr.m), ok=vals.filter(x=>x===1).length, tot=vals.filter(x=>x===0||x===1).length;
-    top=`<div class="hw-banner graded"><div class="voto">${fmtVoto(corr.v)}<small>/10</small></div><div><b>Corretto dall'insegnante</b><p>${ok} risposte giuste su ${tot}. Le risposte sbagliate hanno sotto la soluzione.</p>${corr.c?`<p class="comm">“${esc(corr.c)}”</p>`:""}</div></div>`;
+    top=`<div class="hw-banner graded"><div class="voto">${fmtVoto(corr.v)}<small>/10</small></div><div><b>Corretto dall'insegnante</b><p>${ok} risposte giuste su ${tot}. Sotto le risposte sbagliate c'è la correzione.</p>${corr.c?`<p class="comm">“${esc(corr.c)}”</p>`:""}</div></div>`;
   } else if(st==="sent"){
-    top=`<div class="hw-banner sent"><b>Consegnato il ${fmtDate(r.submittedAt)}. Ora aspetta il voto.</b><p>Se non l'hai ancora fatto, manda questo link all'insegnante.</p>${sharePanel(r.link,`Ho finito i compiti di inglese! (${prog.name||""})`,"Compiti di inglese – "+h.title)}</div>`;
+    const share=sharePanel(r.link,`Ho finito i compiti di inglese! (${prog.name||""})`,"Compiti di inglese – "+h.title);
+    top=!API?`<div class="hw-banner sent"><b>Consegnato il ${fmtDate(r.submittedAt)}. Ora aspetta il voto.</b><p>Se non l'hai ancora fatto, manda questo link all'insegnante.</p>${share}</div>`
+      :r.delivered?`<div class="hw-banner sent"><b>Consegnato il ${fmtDate(r.submittedAt)}. ✓ L'insegnante ha ricevuto un messaggio.</b><p>Quando corregge, il voto compare qui da solo.</p><div class="share-btns" style="margin-top:10px"><button class="btn" data-act="hwcheck">${S.busy?"Controllo…":"Controlla se è arrivato il voto"}</button></div>${S.note?`<p class="small">${esc(S.note)}</p>`:""}</div>`
+      :`<div class="hw-banner sent"><b>Il compito è pronto, ma non sono riuscito a mandarlo.</b><p>Controlla che il computer sia collegato a internet e riprova.</p><div class="share-btns" style="margin-top:10px"><button class="btn main" data-act="hwretry">${S.busy?"Invio…":"Riprova a inviare"}</button></div><p class="small" style="margin-top:10px">Se non funziona ancora, manda questo link all'insegnante:</p>${share}</div>`;
   } else {
     top=`<div class="namebox"><label for="stname">Il tuo nome</label><input id="stname" data-in="name" value="${esc(prog.name||"")}" placeholder="Scrivi il tuo nome" autocomplete="off"></div>`;
     const miss=unansCount(h,r), noName=!String(prog.name||"").trim();
@@ -730,19 +706,51 @@ async function submitHw(){
   const h=hwById(S.hw), r=prog.hw[h.id];
   r.submittedAt=Date.now(); r.k=r.k||Math.random().toString(36).slice(2,10);
   r.link=APP_URL+"#c="+await enc({t:"c",h:h.id,k:r.k,n:String(prog.name||"").trim(),a:r.answers,s:r.submittedAt});
-  save(); S.confirmSend=false; render(); window.scrollTo(0,0);
+  save(); S.confirmSend=false;
+  if(API){ S.busy=true; render(); await deliverHw(h); }
+  render(); window.scrollTo(0,0);
+}
+async function deliverHw(h){
+  const r=prog.hw[h.id];
+  try{ await api({op:"submit",id:r.k,name:String(prog.name||"").trim(),hw:h.id,title:h.title,s:r.submittedAt,answers:r.answers}); r.delivered=true; }
+  catch(e){ r.delivered=false; }
+  S.busy=false; save();
+}
+async function checkGrades(manual){
+  if(!API) return;
+  const open=HOMEWORK.filter(h=>{const r=prog.hw[h.id]; return r&&r.submittedAt&&r.delivered&&!r.correction&&r.k;});
+  if(!open.length) return;
+  if(manual){ S.busy=true; S.note=""; render(); }
+  let got=false, failed=false;
+  for(const h of open){ try{ const j=await api({op:"status",id:prog.hw[h.id].k}); if(j.correction){ prog.hw[h.id].correction=j.correction; got=true; } }catch(e){ failed=true; } }
+  S.busy=false;
+  if(got){ save(); S.flash="È arrivato il voto dell'insegnante!"; }
+  else if(manual) S.note=failed?"Non riesco a controllare adesso. Sei collegato a internet?":"Il voto non è ancora arrivato. Riprova più tardi.";
+  if(got||manual) render();
 }
 
 function teacherGate(){
   return `<div class="unit-top"><button class="back" data-act="home">← Percorso</button><h2>✍️ Area insegnante<small>Solo per l'insegnante</small></h2></div>
-  <div class="gate"><label for="pin">Codice insegnante</label><div class="t-row"><input id="pin" type="password" inputmode="numeric" autocomplete="off"><button class="btn main" data-act="pin">Entra</button></div>${S.pinErr?`<p class="warn">Il codice non è giusto. Riprova.</p>`:""}</div>`;
+  <div class="gate"><label for="pin">Codice insegnante</label><div class="t-row"><input id="pin" type="password" autocomplete="off"><button class="btn main" data-act="pin">${S.busy?"Controllo…":"Entra"}</button></div>${S.pinErr?`<p class="warn">${esc(S.pinErr===true?"Il codice non è giusto. Riprova.":S.pinErr)}</p>`:""}</div>`;
 }
 function teacherList(){
   const recs=Object.values(tst.received).sort((a,b)=>b.s-a.s);
   const rows=recs.map(r=>{const h=hwById(r.h);
-    return `<button class="hw-row" data-act="topen" data-k="${esc(r.k)}"><span class="hw-date">${fmtDate(r.s)}</span><span class="hw-t"><b>${esc(r.n||"Studente")}</b><small>${h?esc(h.title):esc(r.h)}</small></span>${r.sentAt?`<span class="pill graded">Voto ${fmtVoto(r.v)}</span>`:`<span class="pill todo">Da correggere</span>`}</button>`}).join("");
+    return `<button class="hw-row" data-act="topen" data-k="${esc(r.k)}"><span class="hw-date">${fmtDate(r.s)}</span><span class="hw-t"><b>${esc(r.n||"Studente")}</b><small>${h?esc(h.title):esc(r.h)}</small></span>${r.sentAt?`<span class="pill graded">Voto ${fmtVoto(r.v)}${API&&!r.delivered?" · non inviato":""}</span>`:`<span class="pill todo">Da correggere</span>`}</button>`}).join("");
   return `<div class="unit-top"><button class="back" data-act="home">← Percorso</button><h2>✍️ Area insegnante<small>Compiti consegnati</small></h2></div>
-  ${rows?`<div class="hw-list">${rows}</div>`:`<div class="empty"><b>Ancora nessun compito consegnato.</b><p>Quando lo studente consegna, ti manda un link. Aprilo su questo computer: il compito compare qui, pronto da correggere.</p></div>`}`;
+  ${API?`<div class="share-btns" style="margin-bottom:14px"><button class="btn" data-act="trefresh">${S.busy?"Aggiorno…":"Aggiorna la lista"}</button>${S.note?`<span class="small">${esc(S.note)}</span>`:""}</div>`:""}
+  ${rows?`<div class="hw-list">${rows}</div>`:`<div class="empty"><b>Ancora nessun compito consegnato.</b><p>${API?"Quando lo studente consegna, ricevi un messaggio su WhatsApp. Poi premi «Aggiorna la lista».":"Quando lo studente consegna, ti manda un link. Aprilo su questo computer: il compito compare qui, pronto da correggere."}</p></div>`}`;
+}
+async function refreshList(){
+  S.busy=true; S.note=""; render();
+  try{ const j=await api({op:"list",code:tst.code});
+    (j.items||[]).forEach(it=>{ let rec=tst.received[it.id];
+      if(!rec) rec=tst.received[it.id]={h:it.hw,k:it.id,n:it.name,a:it.answers||{},s:it.submitted,m:autoMarks(it.hw,it.answers),v:null,c:"",fix:{}};
+      else { rec.a=it.answers||rec.a; rec.n=it.name||rec.n; }
+      if(it.correction&&!rec.sentAt){ const c=it.correction; rec.m=c.m||rec.m; rec.v=c.v; rec.c=c.c||""; rec.fix=c.f||{}; rec.sentAt=c.d||Date.now(); rec.delivered=true; } });
+    tsave(); S.note=(j.items||[]).length?"":"Nessun compito consegnato per ora.";
+  }catch(e){ S.note=e.code==="code"?"Il codice insegnante non è più valido. Esci e rientra.":"Non riesco a collegarmi. Sei collegata a internet?"; }
+  S.busy=false; render();
 }
 const suggested=(ok,tot)=>tot?Math.max(3,Math.round(ok/tot*20)/2):null;
 function teacherCorr(){
@@ -754,20 +762,26 @@ function teacherCorr(){
   const secs=h.sections.map((s,si)=>`<section class="hw-sec"><h3>${esc(s.t)}</h3><ol class="hw-items">${s.items.map((it,ii)=>{
     const key=si+"-"+ii, ans=rec.a[key], m=rec.m[key], right=it.k==="c"?it.a:it.k==="t"?it.a[0]:null;
     return `<li class="t-item ${m===1?"is-ok":m===0?"is-ko":""}"><div class="hw-q"><span>${qHTML(it)}</span></div>
-      <div class="t-ans"><span class="lbl">Risposta</span> <b>${ans&&String(ans).trim()?esc(ans):"<i>vuota</i>"}</b>${right!=null&&m!==1?` <span class="lbl">Giusto</span> ${esc(right)}`:""}</div>
+      <div class="t-ans"><span class="lbl">Risposta</span> <b>${ans&&String(ans).trim()?esc(ans):"<i>vuota</i>"}</b></div>
+      ${m===0?`<div class="t-fix"><label class="lbl" for="fx-${key}">Correzione</label><input class="hw-in" id="fx-${key}" data-in="fix" data-k="${key}" value="${esc(rec.fix&&rec.fix[key]!=null?rec.fix[key]:(right||""))}" placeholder="Scrivi la risposta giusta" autocomplete="off" spellcheck="false"></div>`:""}
       <div class="t-marks"><button class="tm ok" data-act="tmark" data-k="${key}" data-v="1" aria-pressed="${m===1}" aria-label="Giusto">✓</button><button class="tm ko" data-act="tmark" data-k="${key}" data-v="0" aria-pressed="${m===0}" aria-label="Sbagliato">✗</button>${it.k==="o"?`<button class="tm" data-act="tmark" data-k="${key}" data-v="" aria-pressed="${m==null}">Non conta</button>`:""}</div></li>`}).join("")}</ol></section>`).join("");
   const opts=[]; for(let x=3;x<=10;x+=.5) opts.push(`<option value="${x}" ${x===v?"selected":""}>${fmtVoto(x)}</option>`);
-  return head+`<p class="hint">Le risposte a scelta e le frasi sono già corrette in automatico. Controlla, cambia ✓/✗ dove serve (le frasi libere le correggi tu), poi dai il voto.</p>${secs}
+  return head+`<p class="hint">Le risposte a scelta e le frasi sono già corrette in automatico. Controlla, cambia ✓/✗ dove serve (le frasi libere le correggi tu). Sotto ogni risposta sbagliata puoi scrivere la correzione: lo studente la vede accanto alla sua risposta.</p>${secs}
   <div class="t-final"><div class="t-score"><b>${ok}</b> giuste su <b>${tot}</b>${sug!=null?` · voto suggerito ${fmtVoto(sug)}`:""}</div>
     <div class="t-row"><label for="tvoto">Voto</label><select id="tvoto">${opts.join("")}</select></div>
     <label for="tcomm">Commento per lo studente</label><textarea id="tcomm" rows="3" placeholder="Per esempio: Bravo! Ripassa does / doesn't.">${esc(rec.c||"")}</textarea>
-    ${rec.link?`<div id="tshare"><p><b>Correzione pronta.</b> Manda il link allo studente: quando lo apre, vede il voto e le correzioni nell'app.</p>${sharePanel(rec.link,"Ecco la correzione dei tuoi compiti di inglese:","Correzione compiti – English Passo Passo")}</div>`
-      :`<button class="btn main big" data-act="tsend">Salva e crea il link per lo studente</button>`}</div>`;
+    ${API&&rec.sentAt&&rec.delivered?`<div id="tshare" class="sent-ok"><b>✓ Voto inviato.</b> Lo studente lo vede quando apre l'app. Se cambi qualcosa, puoi inviarlo di nuovo.</div>`
+      :rec.link?`<div id="tshare">${API?`<p class="warn">Non sono riuscito a inviare il voto. Riprova più tardi, oppure manda questo link.</p>`:""}<p><b>Correzione pronta.</b> Manda il link allo studente: quando lo apre, vede il voto e le correzioni nell'app.</p>${sharePanel(rec.link,"Ecco la correzione dei tuoi compiti di inglese:","Correzione compiti – English Passo Passo")}</div>`
+      :`<button class="btn main big" data-act="tsend">${S.busy?"Invio…":API?"Salva e manda il voto":"Salva e crea il link per lo studente"}</button>`}</div>`;
 }
 async function sendCorrection(){
   const rec=tst.received[S.tk], sel=document.getElementById("tvoto"), cm=document.getElementById("tcomm");
   rec.v=sel?+sel.value:rec.v; rec.c=cm?cm.value.trim():rec.c; rec.sentAt=Date.now();
-  rec.link=APP_URL+"#v="+await enc({t:"v",h:rec.h,k:rec.k,n:rec.n,a:rec.a,s:rec.s,m:rec.m,v:rec.v,c:rec.c,d:rec.sentAt});
+  const h=hwById(rec.h), f={};
+  if(h) allItems(h).forEach(it=>{ if(rec.m[it.key]===0){ const v=rec.fix&&rec.fix[it.key]!=null?rec.fix[it.key]:defFix(it); if(String(v).trim()) f[it.key]=String(v).trim(); } });
+  const corr={m:rec.m,v:rec.v,c:rec.c,f,d:rec.sentAt};
+  rec.link=APP_URL+"#v="+await enc(Object.assign({t:"v",h:rec.h,k:rec.k,n:rec.n,a:rec.a,s:rec.s},corr));
+  if(API){ S.busy=true; render(); try{ await api({op:"grade",code:tst.code,id:rec.k,correction:corr}); rec.delivered=true; }catch(e){ rec.delivered=false; } S.busy=false; }
   tsave(); render();
   const t=document.getElementById("tshare"); if(t) t.scrollIntoView({block:"center"});
 }
@@ -776,13 +790,13 @@ async function handleHash(){
   try{
     const p=await dec(mm[2]);
     if(mm[1]==="c"&&p.t==="c"){
-      if(!tst.received[p.k]) tst.received[p.k]={h:p.h,k:p.k,n:p.n,a:p.a||{},s:p.s,m:autoMarks(p.h,p.a),v:null,c:""};
+      if(!tst.received[p.k]) tst.received[p.k]={h:p.h,k:p.k,n:p.n,a:p.a||{},s:p.s,m:autoMarks(p.h,p.a),v:null,c:"",fix:{}};
       tsave(); S.view="teacher"; S.tk=p.k;
     } else if(mm[1]==="v"&&p.t==="v"){
       const r=prog.hw[p.h]||(prog.hw[p.h]={answers:p.a||{}});
       if(!Object.keys(r.answers||{}).length) r.answers=p.a||{};
       r.submittedAt=r.submittedAt||p.s||Date.now(); r.k=r.k||p.k;
-      r.correction={m:p.m,v:p.v,c:p.c,d:p.d}; save();
+      r.correction={m:p.m,v:p.v,c:p.c,f:p.f||{},d:p.d}; save();
       S.view="hwdo"; S.hw=p.h; S.flash="È arrivato il voto dell'insegnante!";
     }
   }catch(e){ S.flash="Questo link non funziona. Chiedi di mandarlo di nuovo."; }
@@ -921,17 +935,20 @@ app.addEventListener("click",e=>{
   if(a==="reset"){ S.confirmReset=true; render(); return; }
   if(a==="reset-no"){ S.confirmReset=false; render(); return; }
   if(a==="reset-yes"){ prog.stars={}; save(); S.confirmReset=false; render(); return; }
-  if(a==="hw"){ S.view="hw"; render(); window.scrollTo(0,0); return; }
+  if(a==="hw"){ S.view="hw"; S.note=""; render(); window.scrollTo(0,0); checkGrades(false); return; }
   if(a==="hwopen"){ S.view="hwdo"; S.hw=b.dataset.id; S.confirmSend=false; render(); window.scrollTo(0,0); return; }
   if(a==="hwpick"){ const r=prog.hw[S.hw]; if(!r||r.submittedAt) return; r.answers[b.dataset.k]=b.dataset.v; save(); render(); return; }
   if(a==="hwsend-ask"){ S.confirmSend=true; render(); return; }
   if(a==="hwsend-no"){ S.confirmSend=false; render(); return; }
   if(a==="hwsend"){ submitHw(); return; }
   if(a==="copylink"){ copyLink(); return; }
-  if(a==="tarea"){ S.view="teacher"; S.tk=null; S.pinErr=false; render(); window.scrollTo(0,0); return; }
+  if(a==="tarea"){ S.view="teacher"; S.tk=null; S.pinErr=false; S.note=""; render(); window.scrollTo(0,0); if(API&&teacherOK) refreshList(); return; }
   if(a==="pin"){ tryPin(); return; }
+  if(a==="trefresh"){ refreshList(); return; }
+  if(a==="hwcheck"){ checkGrades(true); return; }
+  if(a==="hwretry"){ const h=hwById(S.hw); S.busy=true; render(); deliverHw(h).then(render); return; }
   if(a==="topen"){ S.tk=b.dataset.k; render(); window.scrollTo(0,0); return; }
-  if(a==="tlist"){ S.tk=null; render(); window.scrollTo(0,0); return; }
+  if(a==="tlist"){ S.tk=null; S.note=""; render(); window.scrollTo(0,0); return; }
   if(a==="tmark"){ const rec=tst.received[S.tk]; rec.m[b.dataset.k]=b.dataset.v===""?null:+b.dataset.v;
     if(!rec.vManual) rec.v=null; rec.link=null; rec.sentAt=null; tsave(); render(); return; }
   if(a==="tsend"){ sendCorrection(); return; }
@@ -954,17 +971,25 @@ app.addEventListener("change",e=>{ if(e.target.id==="teacher"){ prog.teacher=e.t
   if(e.target.id==="tvoto"){ const rec=tst.received[S.tk]; rec.v=+e.target.value; rec.vManual=true; rec.link=null; rec.sentAt=null; tsave(); render(); } });
 app.addEventListener("input",e=>{ const t=e.target;
   if(t.dataset.in==="name"){ prog.name=t.value; save(); return; }
+  if(t.dataset.in==="fix"){ const rec=tst.received[S.tk]; rec.fix=rec.fix||{}; rec.fix[t.dataset.k]=t.value; markUnsent(rec); tsave(); return; }
   if(t.dataset.in==="ans"){ const r=prog.hw[S.hw]; if(!r||r.submittedAt) return; r.answers[t.dataset.k]=t.value; save();
     const u=document.getElementById("unans"); if(u){const n=unansCount(hwById(S.hw),r); u.textContent=n?`Ti mancano ${n} risposte.`:"Hai risposto a tutto!";} return; }
-  if(t.id==="tcomm"){ const rec=tst.received[S.tk]; rec.c=t.value; if(rec.link){ rec.link=null; rec.sentAt=null; const s=document.getElementById("tshare");
-    if(s) s.outerHTML=`<button class="btn main big" data-act="tsend">Salva e crea il link per lo studente</button>`; } tsave(); } });
+  if(t.id==="tcomm"){ const rec=tst.received[S.tk]; rec.c=t.value; markUnsent(rec); tsave(); } });
+function markUnsent(rec){ if(!rec.link&&!rec.sentAt) return; rec.link=null; rec.sentAt=null; const s=document.getElementById("tshare");
+  if(s) s.outerHTML=`<button class="btn main big" data-act="tsend">${API?"Salva e manda il voto":"Salva e crea il link per lo studente"}</button>`; }
 app.addEventListener("keydown",e=>{ if(e.target.id==="pin"&&e.key==="Enter") tryPin(); });
-function tryPin(){ const el=document.getElementById("pin"); if(el&&el.value.trim()===PIN){ teacherOK=true; S.pinErr=false; try{sessionStorage.setItem("epp-t","1")}catch(e){} }
+async function tryPin(){ const el=document.getElementById("pin"), code=el?el.value.trim():"";
+  if(API){ if(!code||S.busy) return; S.busy=true; render();
+    try{ await api({op:"list",code}); tst.code=code; tsave(); teacherOK=true; S.pinErr=false; S.busy=false; await refreshList(); return; }
+    catch(e){ S.pinErr=e.code==="code"?true:"Non riesco a collegarmi. Sei collegata a internet?"; }
+    S.busy=false; render(); return; }
+  if(code===PIN){ teacherOK=true; S.pinErr=false; try{sessionStorage.setItem("epp-t","1")}catch(e){} }
   else S.pinErr=true; render(); }
 function flash(el){ el.classList.add("playing"); setTimeout(()=>el.classList.remove("playing"),900); }
 
 render();
-handleHash();
+handleHash().then(()=>checkGrades(false));
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible") checkGrades(false); });
 </script>
 
 <!-- APP END -->
