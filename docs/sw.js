@@ -1,4 +1,4 @@
-const CACHE = "passo-20261030-1536-173983";
+const CACHE = "passo-20261030-1548-5c4410";
 const CORE = ["./", "index.html", "manifest.webmanifest", "icon.svg"];
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE)).then(() => self.skipWaiting()));
